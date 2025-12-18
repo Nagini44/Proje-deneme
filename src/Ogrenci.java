@@ -13,7 +13,7 @@ public class Ogrenci extends Kisi implements IDegerlendirilebilir {
     }
 
     public Ogrenci(long id, String ad, String soyad, LocalDate dogumTarihi, int ogrenciNo, int sinif) {
-        super(id, ad, soyad, dogumTarihi);
+        super(id, ad, soyad, dogumTarihi,Unvan.OGRENCI);
         this.ogrenciNo = ogrenciNo;
         this.sinif = sinif;
     }

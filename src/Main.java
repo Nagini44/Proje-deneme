@@ -16,6 +16,7 @@ public class Main{
     private static List<AkademikMekan> mekanlar = new ArrayList<>();
     private static VeriDeposu<Ogrenci> ogrenciDeposu = new VeriDeposu<>();
     private static List<Ders> dersListesi = new ArrayList<>();
+
     private static List<Akademisyen> hocaListesi = JsonIslemleri.akademisyenleriYukle();
     // Demo amaçlı ilk hocayı "Giriş Yapmış" varsayıyoruz
     private static Akademisyen aktifHoca = hocaListesi.isEmpty() ? new Akademisyen(1, "Demo", "Hoca", LocalDate.now(), "001", "Genel", 0) : hocaListesi.get(0);
@@ -69,7 +70,44 @@ public class Main{
                         }
                         break;
 
-                    case "2": akademisyenMenusu(); break;
+                    case "2":
+                        System.out.println("\n--- AKADEMİSYEN GİRİŞİ ---");
+                        // 1. JSON'dan hocaları belleğe yükle
+                        List<Akademisyen> hocaListesi = JsonIslemleri.akademisyenleriYukle();
+
+                        if (hocaListesi.isEmpty()) {
+                            System.out.println("HATA: Sistemde kayıtlı akademisyen bulunamadı (akademisyenler.json boş).");
+                            break;
+                        }
+
+                        System.out.print("Akademisyen ID'nizi giriniz (Örn: 2001): ");
+                        String girilenIdStr = scanner.nextLine();
+
+                        try {
+                            long girilenId = Long.parseLong(girilenIdStr);
+                            Akademisyen bulunanHoca = null;
+
+                            // 2. Listede ID eşleşmesi ara
+                            for (Akademisyen h : hocaListesi) {
+                                if (h.getId() == girilenId) {
+                                    bulunanHoca = h;
+                                    break;
+                                }
+                            }
+
+                            // 3. Giriş Kontrolü
+                            if (aktifHoca != null) {
+                                System.out.println("Giriş Başarılı!");
+                                // Bulunan hocayı menüye parametre olarak gönderiyoruz
+                                akademisyenMenusu(aktifHoca);
+                            } else {
+                                System.out.println("HATA: Bu ID'ye sahip bir akademisyen bulunamadı!");
+                            }
+
+                        } catch (NumberFormatException e) {
+                            System.out.println("HATA: Lütfen ID alanına sadece sayı giriniz.");
+                        }
+                        break;
                     case "3": idariPersonelMenusu(); break;
                     case "0": sistemAcik = false; break;
                     default: System.out.println("Hatalı seçim!");
@@ -107,68 +145,108 @@ public class Main{
     }
 
     // --- 2. AKADEMİSYEN EKRANI ---
-    private static void akademisyenMenusu() {
-        System.out.println("\n--- AKADEMİSYEN PANELİ ---");
-        System.out.println("1. Bilgilerimi Göster");
-        System.out.println("2. Yayın Listesi");
-        System.out.println("3. Verdiğim Dersler");
-        System.out.println("4. Not Girişi Yap");
-        System.out.println("0. Ana Menü");
-        System.out.print("Seçim: ");
+    private static void akademisyenMenusu(Akademisyen aktifHoca) {
+        boolean cikis = false;
+        while (!cikis) {
+            System.out.println("\n--- AKADEMİSYEN PANELİ ---");
+            System.out.println("Hoşgeldiniz, Sayın " + aktifHoca.getUnvan() + " " + aktifHoca.getAd() + " " + aktifHoca.getSoyad());
+            System.out.println("Branş: " + aktifHoca.getBrans());
+            System.out.println("--------------------------");
+            System.out.println("1. Bilgilerimi Göster");
+            System.out.println("2. Yayın Listesi");
+            System.out.println("3. Verdiğim Dersler");
+            System.out.println("4. Not Girişi Yap"); // Önceki adımda yazdığımız kod buraya gelecek
+            System.out.println("0. Çıkış Yap");
+            System.out.print("Seçim: ");
 
-        String secim = scanner.nextLine();
-        switch(secim) {
+            String secim = scanner.nextLine();
+            switch (secim) {
 
-            case "1":
-                System.out.println("Doç. Dr. Ahmet Yılmaz - Bilgisayar Müh.");
-                break;
-            case "2":
-                System.out.println("- Java Mimarileri Üzerine (2023)");
-                System.out.println("- Yapay Zeka Etiği (2024)");
-                break;
-            case "3":
-                System.out.println("- Nesne Yönelimli Programlama");
-                System.out.println("- Veri Yapıları");
-                break;
-            case "4":
-                System.out.println("--- NOT GİRİŞ EKRANI ---");
-                System.out.println("İşlem Yapan: " + aktifHoca.getAd() + " " + aktifHoca.getSoyad() + " (" + aktifHoca.getBrans() + ")");
+                case "1":
+                    aktifHoca.bilgileriGoster();
+                    break;
+                case "2":
+                    System.out.println("- Java Mimarileri Üzerine (2023)");
+                    System.out.println("- Yapay Zeka Etiği (2024)");
+                    break;
+                case "3":
+                    System.out.println("- Nesne Yönelimli Programlama");
+                    System.out.println("- Veri Yapıları");
+                    break;
+                case "4":
+                    System.out.println("\n--- NOT GİRİŞ/GÜNCELLEME EKRANI ---");
+                    System.out.println("Aktif Akademisyen: " + aktifHoca.getAd() + " (" + aktifHoca.getBrans() + ")");
 
-                System.out.print("Notu girilecek Öğrenci Numarası: ");
-                String ogrNoStr = scanner.nextLine();
+                    System.out.print("İşlem yapılacak Öğrenci Numarası: ");
+                    String ogrNoStr = scanner.nextLine();
 
-                // Öğrenciyi bulalım (ogrenciDeposu Main sınıfında static tanımlıydı)
-                Ogrenci bulunanOgr = null;
-                // Not: ogrenciDeposu.getListe() ile listeden arıyoruz
-                for(Ogrenci o : ogrenciDeposu.getListe()) {
-                    if(String.valueOf(o.getOgrenciNo()).equals(ogrNoStr)) {
-                        bulunanOgr = o;
+                    // 1. ÖĞRENCİYİ BULMA
+                    Ogrenci hedefOgrenci = null;
+                    for (Ogrenci o : ogrenciDeposu.getListe()) { // Not: ogrenciDeposu main'de static tanımlı olmalı
+                        if (String.valueOf(o.getOgrenciNo()).equals(ogrNoStr)) {
+                            hedefOgrenci = o;
+                            break;
+                        }
+                    }
+
+                    if (hedefOgrenci == null) {
+                        System.out.println("HATA: Bu numaraya sahip öğrenci bulunamadı!");
                         break;
                     }
-                }
 
-                if (bulunanOgr != null) {
-                    System.out.println("Seçilen Öğrenci: " + bulunanOgr.getAd());
-                    System.out.print("Ders Kodu (Örn: Mat101V): ");
-                    String dersKodu = scanner.nextLine();
+                    // 2. HOCANIN BRANŞINA UYGUN DERSLERİ LİSTELEME
+                    System.out.println("\n" + hedefOgrenci.getAd() + " isimli öğrencinin değiştirebileceğiniz dersleri:");
+                    boolean dersBulundu = false;
 
-                    System.out.print("Not Değeri: ");
+                    // Öğrencinin aldığı dersler (Map) üzerinde dönüyoruz
+                    // Not: Ogrenci sınıfına getDersNotlari() getter'ını eklemiş olmalısınız!
+                    for (String dersKodu : hedefOgrenci.getDersNotlari().keySet()) {
+                        if (aktifHoca.dersBransaUygunMu(dersKodu)) {
+                            Double mevcutNot = hedefOgrenci.getDersNotlari().get(dersKodu);
+                            System.out.println("- " + dersKodu + " (Mevcut Not: " + mevcutNot + ")");
+                            dersBulundu = true;
+                        }
+                    }
+
+                    if (!dersBulundu) {
+                        System.out.println("UYARI: Bu öğrencinin sizin branşınızda (" + aktifHoca.getBrans() + ") kayıtlı dersi yok.");
+                        break;
+                    }
+
+                    // 3. DERS VE NOT SEÇİMİ
+                    System.out.print("\nNotunu değiştirmek istediğiniz Ders Kodu: ");
+                    String girilenKod = scanner.nextLine();
+
+                    // Hoca listede olmayan bir dersi yazarsa engelle
+                    if (!aktifHoca.dersBransaUygunMu(girilenKod)) {
+                        System.out.println("HATA: Bu dersi düzenleme yetkiniz yok!");
+                        break;
+                    }
+
+                    // Öğrenci bu dersi gerçekten alıyor mu kontrolü
+                    if (!hedefOgrenci.getDersNotlari().containsKey(girilenKod)) {
+                        System.out.println("HATA: Öğrenci bu dersi almıyor.");
+                        break;
+                    }
+
+                    System.out.print("Yeni Notu Giriniz: ");
                     try {
-                        double notDegeri = Double.parseDouble(scanner.nextLine());
+                        double yeniNot = Double.parseDouble(scanner.nextLine());
 
-                        // AKADEMİSYEN SINIFINDAKİ METODU ÇAĞIRIYORUZ
-                        aktifHoca.notGir(bulunanOgr, dersKodu, notDegeri);
+                        // İşlemi yap
+                        aktifHoca.notGir(hedefOgrenci, girilenKod, yeniNot);
 
                     } catch (NumberFormatException e) {
-                        System.out.println("Hata: Sayısal bir değer giriniz.");
-                    } catch (Exception e) { // Validation hatası gelirse yakalar
-                        System.out.println("İşlem Başarısız: " + e.getMessage());
+                        System.out.println("HATA: Lütfen geçerli bir sayı giriniz.");
+                    } catch (SecurityException e) {
+                        System.out.println(e.getMessage()); // Branş yetki hatası olursa
+                    } catch (Exception e) {
+                        System.out.println("Beklenmedik bir hata: " + e.getMessage());
                     }
-                } else {
-                    System.out.println("Hata: Bu numaraya sahip öğrenci bulunamadı.");
-                }
-                break;
-            case "0": return;
+                    break;
+                case "0":
+                    return;
+            }
         }
     }
 
@@ -223,4 +301,5 @@ public class Main{
         // Öğrenci (Polimorfizm örneği: Listeye LisansOgrenci ekliyoruz)
         ogrenciDeposu.ekle(new LisansOgrenci(1001, "Mehmet", "Can", 123, 2));
     }
+
 }

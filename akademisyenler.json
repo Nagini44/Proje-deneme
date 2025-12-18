@@ -1,6 +1,7 @@
 [
   {
     "id": 2001,
+    "unvan": "DOCENT",
     "ad": "Ahmet",
     "soyad": "Yılmaz",
     "sicilNo": "AKD-001",
@@ -10,6 +11,7 @@
   {
     "id": 2002,
     "ad": "Zeynep",
+    "unvan": "DOCENT",
     "soyad": "Kaya",
     "sicilNo": "AKD-002",
     "brans": "Matematik",

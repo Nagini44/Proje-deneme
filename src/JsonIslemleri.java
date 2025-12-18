@@ -52,7 +52,10 @@ public class JsonIslemleri {
         List<Akademisyen> liste = new ArrayList<>();
         File file = new File("akademisyenler.json"); // Dosya adını kontrol edin
 
-        if (!file.exists()) return liste;
+        if (!file.exists()){
+            System.out.println("UYARI:akademisyenler.json dosyası bulunamadı.");
+            return liste;
+        }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             StringBuilder sb = new StringBuilder();
@@ -71,6 +74,7 @@ public class JsonIslemleri {
                 long id = 0;
                 String ad = "", soyad = "", sicil = "", brans = "";
                 double maas = 0.0;
+                String unvan = "AR_GOR"; // Varsayılan
 
                 for (String parca : parcalar) {
                     if (!parca.contains(":")) continue;
@@ -80,6 +84,7 @@ public class JsonIslemleri {
 
                     switch (key) {
                         case "id": id = Long.parseLong(val); break;
+                        case "unvan": unvan = val; break; // JSON'dan string olarak oku
                         case "ad": ad = val; break;
                         case "soyad": soyad = val; break;
                         case "sicilNo": sicil = val; break;
@@ -87,8 +92,17 @@ public class JsonIslemleri {
                         case "maas": maas = Double.parseDouble(val); break;
                     }
                 }
+                // String olarak gelen unvanı Enum'a çeviriyoruz
+                Unvan unvanEnum;
+                try {
+                    unvanEnum = Unvan.valueOf(unvan.toUpperCase());
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Bilinmeyen unvan: " + unvan+ ". Varsayılan atandı.");
+                    unvanEnum = Unvan.AR_GOR;
+                }
+
                 if (id != 0) {
-                    // Akademisyeni listeye ekle
+                    // Akademisyen constructor sırası: id, ad, soyad, tarih, sicil, brans, maas, unvan
                     liste.add(new Akademisyen(id, ad, soyad, LocalDate.now(), sicil, brans, maas));
                 }
             }
