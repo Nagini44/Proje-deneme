@@ -99,7 +99,7 @@ public class Main{
                             if (aktifHoca != null) {
                                 System.out.println("Giriş Başarılı!");
                                 // Bulunan hocayı menüye parametre olarak gönderiyoruz
-                                akademisyenMenusu(aktifHoca);
+                                akademisyenMenusu(bulunanHoca);
                             } else {
                                 System.out.println("HATA: Bu ID'ye sahip bir akademisyen bulunamadı!");
                             }
