@@ -1,3 +1,5 @@
+import src.AkademikMekan;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -6,7 +8,7 @@ public class Main{
     private static Scanner scanner = new Scanner(System.in);
 
     // Veri Depoları (Basit veritabanı simülasyonu)
-    private static List<Mekan> mekanlar = new ArrayList<>();
+    private static List<AkademikMekan> mekanlar = new ArrayList<>();
     private static VeriDeposu<Ogrenci> ogrenciDeposu = new VeriDeposu<>();
     private static List<Ders> dersListesi = new ArrayList<>();
 
@@ -50,7 +52,7 @@ public class Main{
         switch(secim) {
             case "1":
                 System.out.println("Mekanlar Listeleniyor:");
-                for(Mekan m : mekanlar) m.ozellikleriGoster();
+                for(AkademikMekan m : mekanlar) m.ozellikleriListele();
                 break;
             case "2":
                 System.out.println("GANO: 3.45 (Demo Veri)");
@@ -125,10 +127,6 @@ public class Main{
 
     // Demo verileri yükleme
     private static void veriYukle() {
-        // Mekanlar
-        mekanlar.add(new Derslik("A", "1", "D-101", 50));
-        mekanlar.add(new Laboratuvar("B", "Zemin", "PC Lab-1", 30));
-        mekanlar.add(new Ofis("C", "2", "Doç. Dr. Ahmet Yılmaz"));
 
         // Dersler
         dersListesi.add(new Ders("NYP101", "Nesne Yönelimli Programlama", 5));

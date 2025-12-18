@@ -33,4 +33,23 @@ public class Laboratuvar extends AkademikMekan{
             System.out.println("Uyarı: PC sayısı kapasiteden az!");
         }
     }
+
+    // AkademikMekan'deki soyut metodu override ediyoruz.
+    // Laboratuvar için hem kapasite hem de PC sayısı göz önünde bulundurulur.
+    @Override
+    public boolean kapasiteSorgula(int kisiSayisi) {
+        boolean kapasiteUygun = kisiSayisi <= getKapasite();
+        boolean pcUygun = kisiSayisi <= pcSayisi;
+        if (kapasiteUygun && pcUygun) {
+            System.out.println(getIsim() + " için " + kisiSayisi + " kişilik laboratuvar dersi yapılabilir.");
+            return true;
+        }
+        if (!kapasiteUygun) {
+            System.out.println(getIsim() + " için " + kisiSayisi + " kişilik ders yapılamaz. Kapasite: " + getKapasite());
+        }
+        if (!pcUygun) {
+            System.out.println(getIsim() + " için " + kisiSayisi + " kişilik ders yapılamaz. PC sayısı: " + pcSayisi);
+        }
+        return false;
+    }
 }

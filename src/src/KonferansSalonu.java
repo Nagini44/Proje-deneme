@@ -29,4 +29,16 @@ public class KonferansSalonu extends AkademikMekan{
         }
     }
 
+    // AkademikMekan'deki soyut metodu override ediyoruz.
+    @Override
+    public boolean kapasiteSorgula(int kisiSayisi) {
+        boolean uygun = kisiSayisi <= getKapasite();
+        if (uygun) {
+            System.out.println(getIsim() + " için " + kisiSayisi + " kişilik etkinlik gerçekleştirilebilir.");
+        } else {
+            System.out.println(getIsim() + " için " + kisiSayisi + " kişilik etkinlik gerçekleştirilemez. Kapasite: " + getKapasite());
+        }
+        return uygun;
+    }
+
 }

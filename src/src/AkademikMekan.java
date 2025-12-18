@@ -13,6 +13,20 @@ public abstract class AkademikMekan implements IRezervasyon {
     }
     // Soyut Metod: Her alt sınıf bunu kendine göre DOLDURMAK ZORUNDA
     public abstract void ozellikleriListele();
+
+    // Yeni metot: verilen kisiSayisi ile mekanda ders işlenip işlenemeyeceğini sorgular
+    // Alt sınıflar bunu override ederek kendi kararlarını verebilir. Burada bir varsayılan
+    // (default) uygulama sağlanıyor; böylece tüm alt sınıfları değiştirmeye gerek kalmaz.
+    public boolean kapasiteSorgula(int kisiSayisi) {
+        boolean uygun = kisiSayisi <= this.kapasite;
+        if (uygun) {
+            System.out.println(isim + " için " + kisiSayisi + " kişilik etkinlik/ders yapılabilir (varsayılan kontrol).");
+        } else {
+            System.out.println(isim + " için " + kisiSayisi + " kişilik etkinlik/ders yapılamaz. Kapasite: " + kapasite);
+        }
+        return uygun;
+    }
+
     // Getter ve Setter Metodları (Erişim için)
     public String getIsim() { return isim; }
     public Integer getKapasite() { return kapasite; }
