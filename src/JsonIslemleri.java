@@ -8,6 +8,96 @@ import java.util.HashMap;
 public class JsonIslemleri {
     private static final String DOSYA_YOLU = "ogrenciler.json";
 
+    // JsonIslemleri.java dosyasının içine (class parantezleri arasına) ekleyin
+    public static void notlariRaporla(Ogrenci ogr) {
+        // Dosya adı öğrenci numarasına göre dinamik olsun (Örn: 101_transkript.txt)
+        String dosyaAdi = ogr.getOgrenciNo() + "_transkript.txt";
+
+        // FileWriter ve BufferedWriter kullanarak dosyayı oluşturup yazıyoruz
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(dosyaAdi))) {
+
+            writer.write("--- ÖĞRENCİ NOT DÖKÜMÜ ---");
+            writer.newLine(); // Alt satıra geç
+            writer.write("Öğrenci: " + ogr.getAd() + " " + ogr.getSoyad());
+            writer.newLine();
+            writer.write("Numara : " + ogr.getOgrenciNo());
+            writer.newLine();
+            writer.write("Tarih  : " + java.time.LocalDate.now());
+            writer.newLine();
+            writer.write("--------------------------");
+            writer.newLine();
+
+            // Notları yazdırma döngüsü
+            if (ogr.getDersNotlari().isEmpty()) {
+                writer.write("Kayıtlı ders notu bulunmamaktadır.");
+            } else {
+                for (Map.Entry<String, Double> ders : ogr.getDersNotlari().entrySet()) {
+                    // Örnek çıktı: Mat101 : 85.0
+                    writer.write(String.format("%-10s : %.2f", ders.getKey(), ders.getValue()));
+                    writer.newLine();
+                }
+            }
+
+            writer.write("--------------------------");
+            writer.newLine();
+            writer.write("Genel Ortalama: " + ogr.notOrtalamasiHesapla());
+
+            System.out.println("Başarılı: Notlar '" + dosyaAdi + "' dosyasına kaydedildi.");
+
+        } catch (IOException e) {
+            System.err.println("Dosya yazma hatası oluştu: " + e.getMessage());
+        }
+    }
+    public static List<Akademisyen> akademisyenleriYukle() {
+        List<Akademisyen> liste = new ArrayList<>();
+        File file = new File("akademisyenler.json"); // Dosya adını kontrol edin
+
+        if (!file.exists()) return liste;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) sb.append(line.trim());
+
+            String fullText = sb.toString().replace("[", "").replace("]", "").replace("\"", "");
+            String[] objeler = fullText.split("}");
+
+            for (String objeStr : objeler) {
+                String temizObje = objeStr.replace(",{", "").replace("{", "").replace(",", " , ");
+                if (temizObje.trim().isEmpty()) continue;
+
+                String[] parcalar = temizObje.split(",");
+
+                long id = 0;
+                String ad = "", soyad = "", sicil = "", brans = "";
+                double maas = 0.0;
+
+                for (String parca : parcalar) {
+                    if (!parca.contains(":")) continue;
+                    String[] kv = parca.split(":");
+                    String key = kv[0].trim();
+                    String val = kv[1].trim();
+
+                    switch (key) {
+                        case "id": id = Long.parseLong(val); break;
+                        case "ad": ad = val; break;
+                        case "soyad": soyad = val; break;
+                        case "sicilNo": sicil = val; break;
+                        case "brans": brans = val; break;
+                        case "maas": maas = Double.parseDouble(val); break;
+                    }
+                }
+                if (id != 0) {
+                    // Akademisyeni listeye ekle
+                    liste.add(new Akademisyen(id, ad, soyad, LocalDate.now(), sicil, brans, maas));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return liste;
+    }
+
     public static List<Ogrenci> ogrencileriYukle() {
         List<Ogrenci> liste = new ArrayList<>();
         File file = new File(DOSYA_YOLU);

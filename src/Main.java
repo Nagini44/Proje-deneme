@@ -1,6 +1,7 @@
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -15,6 +16,9 @@ public class Main{
     private static List<AkademikMekan> mekanlar = new ArrayList<>();
     private static VeriDeposu<Ogrenci> ogrenciDeposu = new VeriDeposu<>();
     private static List<Ders> dersListesi = new ArrayList<>();
+    private static List<Akademisyen> hocaListesi = JsonIslemleri.akademisyenleriYukle();
+    // Demo amaçlı ilk hocayı "Giriş Yapmış" varsayıyoruz
+    private static Akademisyen aktifHoca = hocaListesi.isEmpty() ? new Akademisyen(1, "Demo", "Hoca", LocalDate.now(), "001", "Genel", 0) : hocaListesi.get(0);
 
     public static void main(String[] args) {
         veriYukle(); // Demo verilerini oluştur
@@ -92,8 +96,8 @@ public class Main{
                 break;
             case "2":
                 System.out.println("--- Transkript ---");
-                // Örnek olarak sadece hesaplanan dersi gösteriyoruz
-                System.out.println("Genel Ortalama: " + aktifOgrenci.notOrtalamasiHesapla());
+                // Dosyaya yazdırma işlemini çağırıyoruz:
+                JsonIslemleri.notlariRaporla(aktifOgrenci);
                 break;
             case "3":
                 System.out.println("Pazartesi 09:00 - Nesne Yönelimli Programlama (D-101)");
@@ -114,6 +118,7 @@ public class Main{
 
         String secim = scanner.nextLine();
         switch(secim) {
+
             case "1":
                 System.out.println("Doç. Dr. Ahmet Yılmaz - Bilgisayar Müh.");
                 break;
@@ -126,7 +131,42 @@ public class Main{
                 System.out.println("- Veri Yapıları");
                 break;
             case "4":
-                System.out.println("Not girişi modülü aktif... (Önceki kodlarda yazmıştık)");
+                System.out.println("--- NOT GİRİŞ EKRANI ---");
+                System.out.println("İşlem Yapan: " + aktifHoca.getAd() + " " + aktifHoca.getSoyad() + " (" + aktifHoca.getBrans() + ")");
+
+                System.out.print("Notu girilecek Öğrenci Numarası: ");
+                String ogrNoStr = scanner.nextLine();
+
+                // Öğrenciyi bulalım (ogrenciDeposu Main sınıfında static tanımlıydı)
+                Ogrenci bulunanOgr = null;
+                // Not: ogrenciDeposu.getListe() ile listeden arıyoruz
+                for(Ogrenci o : ogrenciDeposu.getListe()) {
+                    if(String.valueOf(o.getOgrenciNo()).equals(ogrNoStr)) {
+                        bulunanOgr = o;
+                        break;
+                    }
+                }
+
+                if (bulunanOgr != null) {
+                    System.out.println("Seçilen Öğrenci: " + bulunanOgr.getAd());
+                    System.out.print("Ders Kodu (Örn: Mat101V): ");
+                    String dersKodu = scanner.nextLine();
+
+                    System.out.print("Not Değeri: ");
+                    try {
+                        double notDegeri = Double.parseDouble(scanner.nextLine());
+
+                        // AKADEMİSYEN SINIFINDAKİ METODU ÇAĞIRIYORUZ
+                        aktifHoca.notGir(bulunanOgr, dersKodu, notDegeri);
+
+                    } catch (NumberFormatException e) {
+                        System.out.println("Hata: Sayısal bir değer giriniz.");
+                    } catch (Exception e) { // Validation hatası gelirse yakalar
+                        System.out.println("İşlem Başarısız: " + e.getMessage());
+                    }
+                } else {
+                    System.out.println("Hata: Bu numaraya sahip öğrenci bulunamadı.");
+                }
                 break;
             case "0": return;
         }

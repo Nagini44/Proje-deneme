@@ -1,35 +1,44 @@
 import java.time.LocalDate;
 
-public class Akademisyen extends Kisi { // 1. Değişiklik: 'abstract' kelimesi silindi
+public class Akademisyen extends Kisi {
     private String sicilNo;
+    private String brans; // YENİ ALAN
     private double maas;
 
-    public Akademisyen(long id, String ad, String soyad, LocalDate dt, String sicilNo) {
+    // Constructor güncellendi: Brans eklendi
+    public Akademisyen(long id, String ad, String soyad, LocalDate dt, String sicilNo, String brans, double maas) {
         super(id, ad, soyad, dt);
         this.sicilNo = sicilNo;
+        this.brans = brans;
+        this.maas = maas;
     }
 
-    // 2. Değişiklik: Abstract metot artık somutlaştırıldı (içeriği yazıldı).
-    // Artık bu sınıftan nesne üretildiğinde bu metot çalıştırılabilir.
-    public double maasHesapla() {
-        // Varsayılan olarak mevcut maaşı döndürebiliriz veya
-        // buraya temel bir hesaplama mantığı yazabiliriz.
-        return this.maas;
+    // YENİ YETENEK: Öğrenciye not verme
+    public void notGir(Ogrenci ogrenci, String dersKodu, double not) {
+        // İsterseniz burada "Akademisyenin branşı bu derse uygun mu?" kontrolü de yapılabilir.
+        System.out.println("Sayın " + getAd() + ", " + ogrenci.getAd() + " adlı öğrenciye not girişi yapıyor...");
+
+        // Ogrenci sınıfındaki metodu çağırıyoruz.
+        // Hata yönetimi (Validation) Ogrenci sınıfı içinde veya Main'de yapılabilir.
+        ogrenci.notEkle(dersKodu, not);
+
+        System.out.println("İşlem Başarılı: " + dersKodu + " notu güncellendi.");
     }
+
     @Override
     public void bilgileriGoster() {
-        // Kisi sınıfındaki alanlara erişiminiz varsa (getAd(), getSoyad() vb.) buraya ekleyebilirsiniz.
-        // Örnek bir çıktı:
-        System.out.println("--- Akademisyen Bilgileri ---");
-        System.out.println("Sicil No: " + this.sicilNo);
-        System.out.println("Maaş: " + this.maas);
+        System.out.println("--- AKADEMİSYEN KARTI ---");
+        System.out.println("Ad Soyad : " + getAd() + " " + getSoyad());
+        System.out.println("Branş    : " + brans);
+        System.out.println("Sicil No : " + sicilNo);
     }
 
     @Override
-    public String getRolAdi() {return "Akademisyen";}
+    public String getRolAdi() { return "Akademisyen"; }
 
-
-    public String getSicilNo() { return sicilNo; }
-    public void setMaas(double maas) { this.maas = maas; }
+    // Getter - Setter
+    public String getBrans() { return brans; }
+    public void setBrans(String brans) { this.brans = brans; }
     public double getMaas() { return maas; }
+    public String getSicilNo() { return sicilNo; }
 }

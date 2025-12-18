@@ -8,6 +8,9 @@ public class Ogrenci extends Kisi implements IDegerlendirilebilir {
     private int sinif;
     // Notları tutan yeni depo
     private Map<String, Double> dersNotlari = new HashMap<>();
+    public Map<String, Double> getDersNotlari() {
+        return this.dersNotlari;
+    }
 
     public Ogrenci(long id, String ad, String soyad, LocalDate dogumTarihi, int ogrenciNo, int sinif) {
         super(id, ad, soyad, dogumTarihi);

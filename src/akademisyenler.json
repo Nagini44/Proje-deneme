@@ -1,0 +1,18 @@
+[
+  {
+    "id": 2001,
+    "ad": "Ahmet",
+    "soyad": "Yılmaz",
+    "sicilNo": "AKD-001",
+    "brans": "Bilgisayar Mühendisliği",
+    "maas": 45000.0
+  },
+  {
+    "id": 2002,
+    "ad": "Zeynep",
+    "soyad": "Kaya",
+    "sicilNo": "AKD-002",
+    "brans": "Matematik",
+    "maas": 42000.0
+  }
+]
