@@ -1,4 +1,6 @@
 import src.AkademikMekan;
+import src.Derslik;
+import src.Laboratuvar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,7 +118,23 @@ public class Main{
                 String ders = scanner.nextLine();
                 System.out.print("Derslik Kodu: ");
                 String kod = scanner.nextLine();
-                memur.dersAtamaYap(ders, kod);
+                // Mekan listesinden kod ile eşleşen mekanı bulup ders atama isteğinde bulunuyoruz
+                AkademikMekan bulunan = null;
+                for (AkademikMekan m : mekanlar) {
+                    if (m.getIsim().equalsIgnoreCase(kod)) {
+                        bulunan = m;
+                        break;
+                    }
+                }
+                if (bulunan == null) {
+                    System.out.println("Böyle bir derslik/laboratuvar bulunamadı: " + kod);
+                } else {
+                    boolean atamaBasarili = bulunan.dersAtama(ders, memur.getAd() + " " + memur.getSoyad());
+                    if (atamaBasarili) {
+                        // isteğe bağlı olarak memur nesnesinin kendi kaydını da tutabiliriz
+                        memur.dersAtamaYap(ders, kod);
+                    }
+                }
                 break;
             case "2":
                 System.out.println("Derse hoca atama işlemi başarıyla tamamlandı.");
@@ -134,5 +152,13 @@ public class Main{
 
         // Öğrenci (Polimorfizm örneği: Listeye LisansOgrenci ekliyoruz)
         ogrenciDeposu.ekle(new LisansOgrenci(1001, "Mehmet", "Can", 123, 2));
+
+        // Demo mekanlar: Derslik ve Laboratuvar ekleyelim ki atama yapılabilsin
+        mekanlar.add(new Derslik("D-101", "Bina A", 40));
+        try {
+            mekanlar.add(new Laboratuvar("LB-1", "Bina B", 30, 25));
+        } catch (Exception e) {
+            System.out.println("Laboratuvar oluşturulurken hata: " + e.getMessage());
+        }
     }
 }

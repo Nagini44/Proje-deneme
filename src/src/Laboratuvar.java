@@ -1,7 +1,11 @@
 package src;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Laboratuvar extends AkademikMekan{
     private Integer pcSayisi; // Wrapper sınıf
+    private List<String> verilenDersler; // laboratuvarda verilen dersleri tutmak için
 
     // Constructor'a "throws" ekledik. Hatalı veri varsa nesne oluşmayacak.
     public Laboratuvar(String isim, String konum, Integer kapasite, Integer pcSayisi) throws KapasiteHatasiException {
@@ -13,6 +17,7 @@ public class Laboratuvar extends AkademikMekan{
         }
 
         this.pcSayisi = pcSayisi;
+        this.verilenDersler = new ArrayList<>();
     }
     @Override
     public void rezervasyonYap(String zaman) {
@@ -32,6 +37,7 @@ public class Laboratuvar extends AkademikMekan{
         if(pcSayisi < getKapasite()) {
             System.out.println("Uyarı: PC sayısı kapasiteden az!");
         }
+        System.out.println("İşlenen Dersler: " + verilenDersler);
     }
 
     // AkademikMekan'deki soyut metodu override ediyoruz.
@@ -51,5 +57,18 @@ public class Laboratuvar extends AkademikMekan{
             System.out.println(getIsim() + " için " + kisiSayisi + " kişilik ders yapılamaz. PC sayısı: " + pcSayisi);
         }
         return false;
+    }
+
+    // Idari personelin dersi buraya ataması: eğer laboratuvarda henüz ders yoksa atamayı onayla
+    @Override
+    public boolean dersAtama(String dersAdi, String onaylayanAdi) {
+        if (this.verilenDersler.isEmpty()) {
+            this.verilenDersler.add(dersAdi);
+            System.out.println("İdari personel " + onaylayanAdi + " tarafından " + getIsim() + " laboratuvarına '" + dersAdi + "' ataması yapıldı.");
+            return true;
+        } else {
+            System.out.println(getIsim() + " zaten ders/etkinlik içeriyor: " + verilenDersler + ". Yeni atama için önce mevcut atama kaldırılmalı.");
+            return false;
+        }
     }
 }

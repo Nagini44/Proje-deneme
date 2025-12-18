@@ -27,6 +27,13 @@ public abstract class AkademikMekan implements IRezervasyon {
         return uygun;
     }
 
+    // Yeni metot: Ders ataması yapmak için alt sınıflar override edebilir.
+    // Eğer alt sınıf override etmezse bu varsayılan davranış çalışır.
+    public boolean dersAtama(String dersAdi, String onaylayanAdi) {
+        System.out.println("[AkademikMekan] " + getIsim() + " bu mekan türü ders atamayı desteklemiyor veya özel davranışı yok.");
+        return false;
+    }
+
     // Getter ve Setter Metodları (Erişim için)
     public String getIsim() { return isim; }
     public Integer getKapasite() { return kapasite; }
