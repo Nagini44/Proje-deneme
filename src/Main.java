@@ -19,7 +19,7 @@ public class Main{
 
     private static List<Akademisyen> hocaListesi = JsonIslemleri.akademisyenleriYukle();
     // Demo amaçlı ilk hocayı "Giriş Yapmış" varsayıyoruz
-    private static Akademisyen aktifHoca = hocaListesi.isEmpty() ? new Akademisyen(1, "Demo", "Hoca", LocalDate.now(), "001", "Genel", 0) : hocaListesi.get(0);
+    private static Akademisyen aktifHoca = hocaListesi.isEmpty() ? new Akademisyen(1, "Demo", "Hoca", LocalDate.now(), "001", "Genel", 0,new ArrayList<>()) : hocaListesi.get(0);
 
     public static void main(String[] args) {
         veriYukle(); // Demo verilerini oluştur
@@ -175,14 +175,15 @@ public class Main{
                     break;
                 case "4":
                     System.out.println("\n--- NOT GİRİŞ/GÜNCELLEME EKRANI ---");
-                    System.out.println("Aktif Akademisyen: " + aktifHoca.getAd() + " (" + aktifHoca.getBrans() + ")");
+                    System.out.println("Aktif Akademisyen: " + aktifHoca.getAd() + " " + aktifHoca.getSoyad());
+                    System.out.println("Yetkili Olduğunuz Dersler: " + aktifHoca.getVerilenDersler());
 
                     System.out.print("İşlem yapılacak Öğrenci Numarası: ");
                     String ogrNoStr = scanner.nextLine();
 
                     // 1. ÖĞRENCİYİ BULMA
                     Ogrenci hedefOgrenci = null;
-                    for (Ogrenci o : ogrenciDeposu.getListe()) { // Not: ogrenciDeposu main'de static tanımlı olmalı
+                    for (Ogrenci o : ogrenciDeposu.getListe()) {
                         if (String.valueOf(o.getOgrenciNo()).equals(ogrNoStr)) {
                             hedefOgrenci = o;
                             break;
@@ -194,54 +195,60 @@ public class Main{
                         break;
                     }
 
-                    // 2. HOCANIN BRANŞINA UYGUN DERSLERİ LİSTELEME
-                    System.out.println("\n" + hedefOgrenci.getAd() + " isimli öğrencinin değiştirebileceğiniz dersleri:");
-                    boolean dersBulundu = false;
+                    System.out.println("Seçilen Öğrenci: " + hedefOgrenci.getAd() + " " + hedefOgrenci.getSoyad());
+                    boolean islemYapildi = false;
 
-                    // Öğrencinin aldığı dersler (Map) üzerinde dönüyoruz
-                    // Not: Ogrenci sınıfına getDersNotlari() getter'ını eklemiş olmalısınız!
-                    for (String dersKodu : hedefOgrenci.getDersNotlari().keySet()) {
-                        if (aktifHoca.dersBransaUygunMu(dersKodu)) {
-                            Double mevcutNot = hedefOgrenci.getDersNotlari().get(dersKodu);
-                            System.out.println("- " + dersKodu + " (Mevcut Not: " + mevcutNot + ")");
-                            dersBulundu = true;
+                    // 2. HOCANIN DERSLERİNİ TARIYORUZ
+                    if (aktifHoca.getVerilenDersler() != null) {
+                        for (String dersKodu : aktifHoca.getVerilenDersler()) {
+
+                            // Öğrencinin not map'inde bu dersin Vize veya Final kaydı var mı?
+                            // Not: JSON'da notlar "Mat101V", "Mat101F" şeklinde tutuluyor.
+                            String vizeKey = dersKodu + "V";
+                            String finalKey = dersKodu + "F";
+
+                            // Öğrenci bu dersi alıyor mu? (Map'te anahtar var mı?)
+                            boolean dersiAliyorMu = hedefOgrenci.getDersNotlari().containsKey(vizeKey) ||
+                                    hedefOgrenci.getDersNotlari().containsKey(finalKey);
+
+                            if (dersiAliyorMu) {
+                                System.out.println("\n>>> DERS BULUNDU: " + dersKodu);
+                                islemYapildi = true;
+
+                                // --- VİZE GİRİŞİ ---
+                                try {
+                                    System.out.print(dersKodu + " VİZE notunu giriniz (Mevcut: " +
+                                            hedefOgrenci.getDersNotlari().getOrDefault(vizeKey, 0.0) + "): ");
+
+                                    String vizeInput = scanner.nextLine();
+                                    if (!vizeInput.isEmpty()) {
+                                        double yeniVize = Double.parseDouble(vizeInput);
+                                        hedefOgrenci.notEkle(vizeKey, yeniVize);
+                                        System.out.println("Vize güncellendi.");
+                                    }
+
+                                    // --- FİNAL GİRİŞİ ---
+                                    System.out.print(dersKodu + " FİNAL notunu giriniz (Mevcut: " +
+                                            hedefOgrenci.getDersNotlari().getOrDefault(finalKey, 0.0) + "): ");
+
+                                    String finalInput = scanner.nextLine();
+                                    if (!finalInput.isEmpty()) {
+                                        double yeniFinal = Double.parseDouble(finalInput);
+                                        hedefOgrenci.notEkle(finalKey, yeniFinal);
+                                        System.out.println("Final güncellendi.");
+                                    }
+
+                                } catch (NumberFormatException e) {
+                                    System.out.println("HATA: Geçersiz sayı formatı! Bu ders atlandı.");
+                                }
+                            }
                         }
                     }
 
-                    if (!dersBulundu) {
-                        System.out.println("UYARI: Bu öğrencinin sizin branşınızda (" + aktifHoca.getBrans() + ") kayıtlı dersi yok.");
-                        break;
-                    }
-
-                    // 3. DERS VE NOT SEÇİMİ
-                    System.out.print("\nNotunu değiştirmek istediğiniz Ders Kodu: ");
-                    String girilenKod = scanner.nextLine();
-
-                    // Hoca listede olmayan bir dersi yazarsa engelle
-                    if (!aktifHoca.dersBransaUygunMu(girilenKod)) {
-                        System.out.println("HATA: Bu dersi düzenleme yetkiniz yok!");
-                        break;
-                    }
-
-                    // Öğrenci bu dersi gerçekten alıyor mu kontrolü
-                    if (!hedefOgrenci.getDersNotlari().containsKey(girilenKod)) {
-                        System.out.println("HATA: Öğrenci bu dersi almıyor.");
-                        break;
-                    }
-
-                    System.out.print("Yeni Notu Giriniz: ");
-                    try {
-                        double yeniNot = Double.parseDouble(scanner.nextLine());
-
-                        // İşlemi yap
-                        aktifHoca.notGir(hedefOgrenci, girilenKod, yeniNot);
-
-                    } catch (NumberFormatException e) {
-                        System.out.println("HATA: Lütfen geçerli bir sayı giriniz.");
-                    } catch (SecurityException e) {
-                        System.out.println(e.getMessage()); // Branş yetki hatası olursa
-                    } catch (Exception e) {
-                        System.out.println("Beklenmedik bir hata: " + e.getMessage());
+                    if (!islemYapildi) {
+                        System.out.println("UYARI: Bu öğrenci sizin verdiğiniz derslerden hiçbirini almıyor veya sistemde eşleşme bulunamadı.");
+                    } else {
+                        System.out.println("\nNot giriş işlemleri tamamlandı.");
                     }
                     break;
                 case "0":
@@ -291,15 +298,14 @@ public class Main{
 
     // Demo verileri yükleme
     private static void veriYukle() {
-        // Mekanlar
+             // -- BURAYI EKLEYİN --
+        // JSON dosyasındaki öğrencileri okuyup sisteme (VeriDeposu'na) dahil ediyoruz
+        List<Ogrenci> jsonOgrencileri = JsonIslemleri.ogrencileriYukle();
+        for (Ogrenci o : jsonOgrencileri) {
+            ogrenciDeposu.ekle(o);
+        }
 
-
-        // Dersler
-        dersListesi.add(new Ders("NYP101", "Nesne Yönelimli Programlama", 5));
-        dersListesi.add(new Ders("MAT101", "Matematik I", 4));
-
-        // Öğrenci (Polimorfizm örneği: Listeye LisansOgrenci ekliyoruz)
-        ogrenciDeposu.ekle(new LisansOgrenci(1001, "Mehmet", "Can", 123, 2));
+        System.out.println("Bilgi: JSON'dan " + jsonOgrencileri.size() + " öğrenci sisteme yüklendi.");
     }
 
 }

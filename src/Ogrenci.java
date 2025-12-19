@@ -81,4 +81,6 @@ public class Ogrenci extends Kisi implements IDegerlendirilebilir {
     @Override public String harfNotuGetir() { return notOrtalamasiHesapla() >= 50 ? "Geçti" : "Kaldı"; }
     @Override public boolean gectiMi() { return notOrtalamasiHesapla() >= 50; }
     public int getOgrenciNo() { return ogrenciNo; }
+    // Ogrenci sınıfının en altına veya getter metodlarının olduğu yere ekleyin:
+    public int getSinif() {return sinif;}
 }
