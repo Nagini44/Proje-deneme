@@ -249,6 +249,7 @@ public class Main{
                         System.out.println("UYARI: Bu öğrenci sizin verdiğiniz derslerden hiçbirini almıyor veya sistemde eşleşme bulunamadı.");
                     } else {
                         System.out.println("\nNot giriş işlemleri tamamlandı.");
+                        JsonIslemleri.ogrencileriKaydet(ogrenciDeposu.getListe());
                     }
                     break;
                 case "0":

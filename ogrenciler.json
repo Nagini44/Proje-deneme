@@ -1,9 +1,8 @@
 [
   {"id":1764942361763, "ad":"Emre", "soyad":"Sekizsu", "no":100, "sinif":1,
-    "Mat101V":14,"Mat101F":14, "Fiz101V": 10,"Fiz101F":100
+    "Fiz101V":100, "Fiz101F":100, "Mat101V":14, "Mat101F":14
   },
   {"id":1764942361764, "ad":"Göktuğ", "soyad":"Ercedoğan", "no":101, "sinif":2,
-    "Mat101V":14, "Mat101F":14, "Fiz101V":10,"Fiz101F":100,
-    "Mat201V":80, "Mat201F":70, "Fiz201V":30, "Fiz201F":90
+    "Mat201V":80, "Mat201F":70, "Fiz101V":10, "Fiz101F":100, "Fiz201V":30, "Fiz201F":90, "Mat101V":14, "Mat101F":14
   }
 ]
