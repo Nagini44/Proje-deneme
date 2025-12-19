@@ -307,6 +307,12 @@ public class Main{
         }
 
         System.out.println("Bilgi: JSON'dan " + jsonOgrencileri.size() + " öğrenci sisteme yüklendi.");
+        mekanlar.add(new Derslik("D-101", "Bina A", 40));
+        try {
+            mekanlar.add(new Laboratuvar("LB-1", "Bina B", 30, 25));
+        } catch (Exception e) {
+            System.out.println("Laboratuvar oluşturulurken hata: " + e.getMessage());
+        }
     }
 
 }
