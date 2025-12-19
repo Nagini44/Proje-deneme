@@ -1,5 +1,3 @@
-import src.AkademikMekan;
-
 public class Ofis extends AkademikMekan {
     private String calisanAdi;
 
