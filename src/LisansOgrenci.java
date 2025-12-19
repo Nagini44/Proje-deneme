@@ -5,7 +5,7 @@ public class LisansOgrenci extends Ogrenci {
     private int sinif; // 1, 2, 3, 4
 
     public LisansOgrenci(long id, String ad, String soyad, int no, int sinif) {
-        super(id, ad, soyad, LocalDate.now(), no);
+        super(id, ad, soyad,LocalDate.now(), no,sinif);
         this.sinif = sinif;
     }
 

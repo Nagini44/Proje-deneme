@@ -1,0 +1,42 @@
+[
+  {
+    "id": 2001,
+    "unvan": "DOCENT",
+    "ad": "Ahmet",
+    "soyad": "Yılmaz",
+    "sicilNo": "AKD-001",
+    "brans": "Fizik",
+    "maas": 80000.0,
+    "verdiği_dersler": "Fiz101-Fiz102"
+  },
+  {
+    "id": 2002,
+    "ad": "Busegül",
+    "unvan": "DOCENT",
+    "soyad": "Uran",
+    "sicilNo": "AKD-002",
+    "brans": "Matematik",
+    "verdiği_dersler": "Mat201-Mat202",
+    "maas": 82000.0
+  },
+  {
+    "id": 2003,
+    "ad": "Zeynep",
+    "unvan": "AR_GOR",
+    "soyad": "Kaya",
+    "sicilNo": "AKD-003",
+    "brans": "Matematik",
+    "verdiği_dersler": "Mat101-Mat102",
+    "maas": 49000.0
+  },
+  {
+    "id": 2004,
+    "ad": "Enes",
+    "unvan": "PROFESOR",
+    "soyad": "Tunç",
+    "sicilNo": "AKD-004",
+    "brans": "Bilgisayar Mühendisliği",
+    "verdiği_dersler": "Bmt101-Bmt102",
+    "maas": 111000.0
+  }
+]

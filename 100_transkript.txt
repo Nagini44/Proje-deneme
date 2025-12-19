@@ -1,0 +1,11 @@
+--- ÖĞRENCİ NOT DÖKÜMÜ ---
+Öğrenci: Emre Sekizsu
+Numara : 100
+Tarih  : 2025-12-18
+--------------------------
+Fiz101V    : 10,00
+Fiz101F    : 100,00
+Mat101V    : 14,00
+Mat101F    : 14,00
+--------------------------
+Genel Ortalama: 34.5

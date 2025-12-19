@@ -8,16 +8,19 @@ public abstract class Kisi {
     private String soyad;
     private LocalDate dogumTarihi; // Gereksinim 6: LocalDate kullanımı
 
+    private Unvan unvan;
+
     // Gereksinim 3: Constructor Overloading (1)
     public Kisi() {
         this.id = System.currentTimeMillis();
     }
 
-    public Kisi(long id, String ad, String soyad, LocalDate dogumTarihi) {
+    public Kisi(long id, String ad, String soyad, LocalDate dogumTarihi,Unvan unvan) {
         this.id = id;
         this.ad = ad;
         this.soyad = soyad;
         this.dogumTarihi = dogumTarihi;
+        this.unvan = unvan; // Atama yapıldı
     }
 
     // Gereksinim 4.2: Abstract metotlar
@@ -36,4 +39,7 @@ public abstract class Kisi {
 
     public LocalDate getDogumTarihi() { return dogumTarihi; }
     public void setDogumTarihi(LocalDate dogumTarihi) { this.dogumTarihi = dogumTarihi; }
+
+    public Unvan getUnvan() { return unvan; }
+    public void setUnvan(Unvan unvan) { this.unvan = unvan; }
 }
