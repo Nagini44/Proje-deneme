@@ -1,3 +1,7 @@
+package interfaces;
+
+import exception.KapasiteHatasiException;
+
 public interface IRezervasyon {
     //metod imzaları oluşturalım (abstract olacak)
     void rezervasyonYap(String zaman) throws KapasiteHatasiException;

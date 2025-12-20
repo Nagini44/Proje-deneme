@@ -1,10 +1,12 @@
+package model;
+
 import java.time.LocalDate;
 
 public class IdariPersonel extends Kisi {
     private String departman; // Örn: Öğrenci İşleri
 
     public IdariPersonel(long id, String ad, String soyad, String departman) {
-        super(id, ad, soyad, LocalDate.now(),Unvan.MEMUR);
+        super(id, ad, soyad, LocalDate.now(), Unvan.MEMUR);
         this.departman = departman;
     }
 

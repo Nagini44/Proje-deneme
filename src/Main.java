@@ -1,10 +1,10 @@
-import java.io.FileReader;
-import java.io.IOException;
-import java.lang.reflect.Type;
+import model.*;
+import service.JsonIslemleri;
+import service.VeriDeposu;
+import util.IslemSonucu;
+import util.TarihYardimcisi;
+
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -15,7 +15,6 @@ public class Main{
      // Veri Depoları (Basit veritabanı simülasyonu)
      private static List<AkademikMekan> mekanlar = new ArrayList<>();
      private static VeriDeposu<Ogrenci> ogrenciDeposu = new VeriDeposu<>();
-     private static List<Ders> dersListesi = new ArrayList<>();
     // Bölüm dersleri (Bilgisayar Mühendisliği - örnek 4 ders)
     private static List<Ders> bolumDersleri = new ArrayList<>();
 
@@ -28,8 +27,9 @@ public class Main{
     public static void main(String[] args) {
         veriYukle(); // Demo verilerini oluştur
 
+        String bugun = TarihYardimcisi.bugunuGetir();
         boolean sistemAcik = true;
-        while (sistemAcik) {
+        do {
             System.out.println("\n###################################");
             System.out.println("#    OBS SİSTEMİNE HOŞ GELDİNİZ   #");
             System.out.println("###################################");
@@ -84,7 +84,7 @@ public class Main{
                             break;
                         }
 
-                        System.out.print("Akademisyen ID'nizi giriniz (Örn: 2001): ");
+                        System.out.print("model.Akademisyen ID'nizi giriniz (Örn: 2001): ");
                         String girilenIdStr = scanner.nextLine();
 
                         try {
@@ -117,7 +117,7 @@ public class Main{
                     default: System.out.println("Hatalı seçim!");
 
             }
-        }
+        } while (sistemAcik);
     }
 
     // --- 1. ÖĞRENCİ EKRANI ---
@@ -128,8 +128,7 @@ public class Main{
             System.out.println("\n--- ÖĞRENCİ PANELİ (" + aktifOgrenci.getAd() + " " + aktifOgrenci.getSoyad() + ") ---");
             System.out.println("1. GANO ve Harf Notu Göster");
             System.out.println("2. Transkript Görüntüle");
-            System.out.println("3. Ders Programı");
-            System.out.println("4. Konum Sorgula");
+            System.out.println("3. Konum Sorgula");
             System.out.println("0. Ana Menü");
             System.out.print("Seçim: ");
 
@@ -144,9 +143,6 @@ public class Main{
                     JsonIslemleri.notlariRaporla(aktifOgrenci);
                     break;
                 case "3":
-                    System.out.println("Pazartesi 09:00 - Nesne Yönelimli Programlama (D-101)");
-                    break;
-                case "4":
                     konumSorgulaPrompt();
                     break;
                 case "0":
@@ -190,7 +186,7 @@ public class Main{
                     break;
                 case "4":
                     System.out.println("\n--- NOT GİRİŞ/GÜNCELLEME EKRANI ---");
-                    System.out.println("Aktif Akademisyen: " + aktifHoca.getAd() + " " + aktifHoca.getSoyad());
+                    System.out.println("Aktif model.Akademisyen: " + aktifHoca.getAd() + " " + aktifHoca.getSoyad());
                     System.out.println("Yetkili Olduğunuz Dersler: " + aktifHoca.getVerilenDersler());
 
                     System.out.print("İşlem yapılacak Öğrenci Numarası: ");
@@ -200,6 +196,7 @@ public class Main{
                     Ogrenci hedefOgrenci = null;
                     for (Ogrenci o : ogrenciDeposu.getListe()) {
                         if (String.valueOf(o.getOgrenciNo()).equals(ogrNoStr)) {
+
                             hedefOgrenci = o;
                             break;
                         }
@@ -312,7 +309,7 @@ public class Main{
         boolean cikis = false;
         while (!cikis) {
             System.out.println("Aktif Personel: " + memur.getAd() + " " + memur.getSoyad());
-            System.out.println("1. Dersliğe Ders Ata");
+            System.out.println("1. Dersliğe model.Ders Ata");
             System.out.println("2. Derse Hoca Ata");
             System.out.println("3. Mekan Özellikleri");
             System.out.println("4. Konum Sorgula");
@@ -378,7 +375,7 @@ public class Main{
                     try { aidL = Long.parseLong(aid); } catch (NumberFormatException e) { System.out.println("Geçersiz ID"); break; }
                     Akademisyen secAk = null;
                     for (Akademisyen a : hocaListesi) { if (a.getId() == aidL) { secAk = a; break; } }
-                    if (secAk == null) { System.out.println("Akademisyen bulunamadı"); break; }
+                    if (secAk == null) { System.out.println("model.Akademisyen bulunamadı"); break; }
 
                     // Atamayı ekle (eğer yoksa)
                     if (secAk.getVerilenDersler() == null) {
@@ -387,7 +384,7 @@ public class Main{
                         System.out.println("Bu akademisyen zaten bu dersi veriyor: " + hedefDers.getKod());
                     } else {
                         secAk.getVerilenDersler().add(hedefDers.getKod());
-                        System.out.println("Atama başarılı: Akademisyen " + secAk.getAd() + " -> " + hedefDers.getKod());
+                        System.out.println("Atama başarılı: model.Akademisyen " + secAk.getAd() + " -> " + hedefDers.getKod());
                         // Değişiklikleri dosyaya kaydet (opsiyonel)
                         JsonIslemleri.akademisyenleriKaydet(hocaListesi);
                     }
@@ -434,7 +431,7 @@ public class Main{
                                 for (AkademikMekan m : mekanlar) {
                                     if (m instanceof Laboratuvar) {
                                         found = true;
-                                        // Laboratuvar sınıfının kendi ozellik metodu pc sayısını da yazdırır
+                                        // model.Laboratuvar sınıfının kendi ozellik metodu pc sayısını da yazdırır
                                         m.ozellikleriListele();
                                         System.out.println("Kapasite: " + m.getKapasite());
                                         // Müsaitlik kontrolü
@@ -532,10 +529,20 @@ public class Main{
         }
     }
 
+    public static IslemSonucu<Ogrenci> ogrenciBul(int ogrenciNo, List<Ogrenci> liste) {
+        for (Ogrenci o : liste) {
+            if (o.getOgrenciNo() == ogrenciNo) {
+                // Bulundu: Başarılı, Mesaj, Öğrenci Nesnesi
+                return new IslemSonucu<>(true, "Öğrenci bulundu.", o);
+            }
+        }
+        // Bulunamadı: Başarısız, Hata Mesajı, Null
+        return new IslemSonucu<>(false, "Bu numaralı öğrenci sistemde yok.", null);
+    }
      // Demo verileri yükleme
      private static void veriYukle() {
               // -- BURAYI EKLEYİN --
-         // JSON dosyasındaki öğrencileri okuyup sisteme (VeriDeposu'na) dahil ediyoruz
+         // JSON dosyasındaki öğrencileri okuyup sisteme (util.VeriDeposu'na) dahil ediyoruz
          List<Ogrenci> jsonOgrencileri = JsonIslemleri.ogrencileriYukle();
          for (Ogrenci o : jsonOgrencileri) {
              ogrenciDeposu.ekle(o);
@@ -566,18 +573,18 @@ public class Main{
              mekanlar.add(new Laboratuvar("LB-1", "B Blok Zemin Kat", 30, 25));
              mekanlar.add(new Laboratuvar("LB-2", "B Blok 1. Kat", 20, 18));
          } catch (Exception e) {
-             System.out.println("Laboratuvar oluşturulurken hata: " + e.getMessage());
+             System.out.println("model.Laboratuvar oluşturulurken hata: " + e.getMessage());
          }
          mekanlar.add(new KonferansSalonu("KS-1", "Kampüs Merkezi", 200));
 
          // Akademisyenlere ofis atama (her akademisyenin kendi ofisi)
          for (Akademisyen a : hocaListesi) {
-             String ofisAdi = "Ofis - " + a.getAd() + " " + a.getSoyad();
+             String ofisAdi = "model.Ofis - " + a.getAd() + " " + a.getSoyad();
              Ofis of = new Ofis(ofisAdi, "Akademik Blok 3. Kat", 1, a.getAd() + " " + a.getSoyad());
              mekanlar.add(of);
          }
          // İdari personel için ortak ofis
-         Ofis ortakIdari = new Ofis("İdari Ofis", "Yönetim Katı", 10, "Ortak İdari Personel");
+         Ofis ortakIdari = new Ofis("İdari model.Ofis", "Yönetim Katı", 10, "Ortak İdari Personel");
          mekanlar.add(ortakIdari);
 
          // Eksik konumları atayalım (JSON'dan gelen veya null konumlar için)

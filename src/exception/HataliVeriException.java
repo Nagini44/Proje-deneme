@@ -1,3 +1,5 @@
+package exception;
+
 /**
  * Proje genelinde veri doğrulama hatalarında kullanılacak özel hata sınıfı.
  * GEREKSİNİM 7: Özel (Custom) Exception sınıfı.

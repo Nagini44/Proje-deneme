@@ -1,7 +1,11 @@
+package model;
+
+import exception.KapasiteHatasiException;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Laboratuvar extends AkademikMekan{
+public class Laboratuvar extends AkademikMekan {
     private Integer pcSayisi; // Wrapper sınıf
     private List<String> verilenDersler; // laboratuvarda verilen dersleri tutmak için
 
@@ -38,8 +42,8 @@ public class Laboratuvar extends AkademikMekan{
         System.out.println("İşlenen Dersler: " + verilenDersler);
     }
 
-    // AkademikMekan'deki soyut metodu override ediyoruz.
-    // Laboratuvar için hem kapasite hem de PC sayısı göz önünde bulundurulur.
+    // model.AkademikMekan'deki soyut metodu override ediyoruz.
+    // model.Laboratuvar için hem kapasite hem de PC sayısı göz önünde bulundurulur.
     @Override
     public boolean kapasiteSorgula(int kisiSayisi) {
         boolean kapasiteUygun = kisiSayisi <= getKapasite();

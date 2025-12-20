@@ -1,3 +1,7 @@
+package model;
+
+import interfaces.IDegerlendirilebilir;
+
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +17,7 @@ public class Ogrenci extends Kisi implements IDegerlendirilebilir {
     }
 
     public Ogrenci(long id, String ad, String soyad, LocalDate dogumTarihi, int ogrenciNo, int sinif) {
-        super(id, ad, soyad, dogumTarihi,Unvan.OGRENCI);
+        super(id, ad, soyad, dogumTarihi, Unvan.OGRENCI);
         this.ogrenciNo = ogrenciNo;
         this.sinif = sinif;
     }
@@ -73,6 +77,9 @@ public class Ogrenci extends Kisi implements IDegerlendirilebilir {
         if (sinif > 1) {
             System.out.printf("2. Sınıf Ortalaması : %.2f\n", donemOrtalamasiHesapla(2));
         }
+        if (sinif > 2) {
+            System.out.printf("3. Sınıf Ortalaması : %.2f\n", donemOrtalamasiHesapla(3));
+        }
         System.out.printf("GENEL GANO          : %.2f\n", notOrtalamasiHesapla());
     }
 
@@ -81,6 +88,12 @@ public class Ogrenci extends Kisi implements IDegerlendirilebilir {
     @Override public String harfNotuGetir() { return notOrtalamasiHesapla() >= 50 ? "Geçti" : "Kaldı"; }
     @Override public boolean gectiMi() { return notOrtalamasiHesapla() >= 50; }
     public int getOgrenciNo() { return ogrenciNo; }
-    // Ogrenci sınıfının en altına veya getter metodlarının olduğu yere ekleyin:
+    // model.Ogrenci sınıfının en altına veya getter metodlarının olduğu yere ekleyin:
     public int getSinif() {return sinif;}
+    public void setSinif(int sinif) {
+        if (sinif < 1 || sinif > 4) {
+            throw new IllegalArgumentException("Sınıf 1 ile 4 arasında olmalıdır!"); // Hata fırlatma
+        }
+        this.sinif = sinif;
+    }
 }

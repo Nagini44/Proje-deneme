@@ -1,6 +1,8 @@
+package model;
+
 import java.util.ArrayList;
 import java.util.List;
-public class Derslik extends AkademikMekan{
+public class Derslik extends AkademikMekan {
     // Collection Framework kullanımı
     private List<String> verilenDersler;
 
@@ -25,7 +27,7 @@ public class Derslik extends AkademikMekan{
         System.out.println("Kapasite: " + getKapasite() + " Öğrenci");
         System.out.println("İşlenen Dersler: " + verilenDersler);
     }
-    // AkademikMekan'deki soyut metodu override ediyoruz.
+    // model.AkademikMekan'deki soyut metodu override ediyoruz.
     @Override
     public boolean kapasiteSorgula(int kisiSayisi) {
         boolean uygun = kisiSayisi <= getKapasite();

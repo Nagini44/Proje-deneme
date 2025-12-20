@@ -1,6 +1,10 @@
+package model;
+
+import exception.KapasiteHatasiException;
+
 import java.util.ArrayList;
 import java.util.List;
-public class KonferansSalonu extends AkademikMekan{
+public class KonferansSalonu extends AkademikMekan {
     private List<String> etkinlikler;
 
     public KonferansSalonu(String isim, String konum, Integer kapasite) {
@@ -27,7 +31,7 @@ public class KonferansSalonu extends AkademikMekan{
         }
     }
 
-    // AkademikMekan'deki soyut metodu override ediyoruz.
+    // model.AkademikMekan'deki soyut metodu override ediyoruz.
     @Override
     public boolean kapasiteSorgula(int kisiSayisi) {
         boolean uygun = kisiSayisi <= getKapasite();

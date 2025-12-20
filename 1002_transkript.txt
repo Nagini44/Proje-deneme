@@ -1,13 +1,13 @@
 --- ÖĞRENCİ NOT DÖKÜMÜ ---
-Öğrenci: Ali Veli
-Numara : 1001
+Öğrenci: Ayşe Demir
+Numara : 1002
 Tarih  : 2025-12-20
 --------------------------
-Mat101V    : 100,00
-Mat101F    : 100,00
+Mat101V    : 14,00
+Mat101F    : 14,00
 --------------------------
 Fiz101V    : 10,00
 Fiz101F    : 100,00
 --------------------------
-Genel Ortalama: 82,00
-Harf Notu: BA
+Genel Ortalama: 39,00
+Harf Notu: DC

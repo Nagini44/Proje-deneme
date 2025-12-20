@@ -1,3 +1,5 @@
+package model;
+
 public class Ofis extends AkademikMekan {
     private String calisanAdi;
 
