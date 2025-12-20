@@ -10,6 +10,13 @@ public class Ders {
         this.ad = ad;
         this.kredi = kredi;
     }
+    // model/Ders.java içerisine ekleyin:
+    public Ders() {
+        // Varsayılan değerler
+        this.kod = "Tanımsız";
+        this.ad = "İsimsiz Ders";
+        this.kredi = 0;
+    }
 
     @Override
     public String toString() {

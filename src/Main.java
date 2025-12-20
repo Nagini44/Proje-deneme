@@ -13,7 +13,6 @@ public class Main{
      // Veri Depoları (Basit veritabanı simülasyonu)
      private static List<AkademikMekan> mekanlar = new ArrayList<>();
      private static VeriDeposu<Ogrenci> ogrenciDeposu = new VeriDeposu<>();
-     private static List<Ders> dersListesi = new ArrayList<>();
     // Bölüm dersleri (Bilgisayar Mühendisliği - örnek 4 ders)
     private static List<Ders> bolumDersleri = new ArrayList<>();
 
@@ -33,7 +32,7 @@ public class Main{
             System.out.println("###################################");
             System.out.println("Lütfen Giriş Türünü Seçiniz:");
             System.out.println("1. Öğrenci Girişi");
-            System.out.println("2. model.Akademisyen Girişi");
+            System.out.println("2. Akademisyen Girişi");
             System.out.println("3. İdari Personel Girişi");
             System.out.println("0. Kapat");
             System.out.print("Seçim: ");
@@ -142,7 +141,6 @@ public class Main{
                     JsonIslemleri.notlariRaporla(aktifOgrenci);
                     break;
                 case "3":
-                    System.out.println("Pazartesi 09:00 - Nesne Yönelimli Programlama (D-101)");
                     break;
                 case "4":
                     konumSorgulaPrompt();

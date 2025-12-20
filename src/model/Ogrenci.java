@@ -77,6 +77,9 @@ public class Ogrenci extends Kisi implements IDegerlendirilebilir {
         if (sinif > 1) {
             System.out.printf("2. Sınıf Ortalaması : %.2f\n", donemOrtalamasiHesapla(2));
         }
+        if (sinif > 2) {
+            System.out.printf("3. Sınıf Ortalaması : %.2f\n", donemOrtalamasiHesapla(3));
+        }
         System.out.printf("GENEL GANO          : %.2f\n", notOrtalamasiHesapla());
     }
 
@@ -87,4 +90,10 @@ public class Ogrenci extends Kisi implements IDegerlendirilebilir {
     public int getOgrenciNo() { return ogrenciNo; }
     // model.Ogrenci sınıfının en altına veya getter metodlarının olduğu yere ekleyin:
     public int getSinif() {return sinif;}
+    public void setSinif(int sinif) {
+        if (sinif < 1 || sinif > 4) {
+            throw new IllegalArgumentException("Sınıf 1 ile 4 arasında olmalıdır!"); // Hata fırlatma
+        }
+        this.sinif = sinif;
+    }
 }

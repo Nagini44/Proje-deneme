@@ -16,6 +16,29 @@ public class JsonIslemleri {
     private static final String DOSYA_YOLU = "ogrenciler.json";
     private static final String IDARI_DOSYA = "idariPersonel.json";
 
+    // service/Raporlama.java (Yeni bir yardımcı sınıf oluşturabilirsiniz)
+    public class Raporlama {
+        // Generic Metot 1: Herhangi bir diziyi ekrana basar
+        public static <T> void diziYazdir(T[] dizi) {
+            for (T eleman : dizi) {
+                System.out.println(eleman);
+            }
+        }
+
+        // Generic Metot 2
+        public static <T> T ilkElemaniGetir(List<T> liste) {
+            if (liste == null || liste.isEmpty()) return null;
+            return liste.get(0);
+        }
+
+        // Wildcard Kullanımı (List<?>)
+        public static void listeyiYazdir(List<?> liste) {
+            System.out.println("--- Liste İçeriği ---");
+            for (Object obj : liste) {
+                System.out.println(obj);
+            }
+        }
+    }
     // 1. GÜNCELLENEN METOD: Akademisyenleri Yükle
     public static List<Akademisyen> akademisyenleriYukle() {
         List<Akademisyen> liste = new ArrayList<>();

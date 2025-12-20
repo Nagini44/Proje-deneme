@@ -61,4 +61,11 @@ public class Akademisyen extends Kisi {
     public String getSicilNo() { return sicilNo; }
     public long getId() { return id; }
     public List<String> getVerilenDersler() { return verilenDersler; }
+    public void setId(String isim) {
+        if (isim == null || isim.trim().isEmpty()) {
+            System.out.println("Hata: Id boş olamaz!"); // Null kontrolü
+            return;
+        }
+        this.id = id;
+    }
 }
