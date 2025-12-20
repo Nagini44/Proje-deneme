@@ -174,11 +174,16 @@ public class Main{
             switch (secim) {
 
                 case "1":
-                    aktifHoca.bilgileriGoster();
+                    aktifHoca.bilgileriGoster(); // Tüm hesaplamalar burada yapılıp ekrana basılacak
                     break;
                 case "2":
-                    System.out.println("- Java Mimarileri Üzerine (2023)");
-                    System.out.println("- Yapay Zeka Etiği (2024)");
+                    // Gerçek yayın listesini göster
+                    if (aktifHoca.getYayinlar() == null || aktifHoca.getYayinlar().isEmpty()) {
+                        System.out.println("(Bu akademisyenin kayıtlı yayını yok.)");
+                    } else {
+                        System.out.println("--- YAYINLAR ---");
+                        for (String yay : aktifHoca.getYayinlar()) System.out.println("- " + yay);
+                    }
                     break;
                 case "3":
                     System.out.println("- Nesne Yönelimli Programlama");
@@ -309,7 +314,7 @@ public class Main{
         boolean cikis = false;
         while (!cikis) {
             System.out.println("Aktif Personel: " + memur.getAd() + " " + memur.getSoyad());
-            System.out.println("1. Dersliğe model.Ders Ata");
+            System.out.println("1. Dersliğe Ders Ata");
             System.out.println("2. Derse Hoca Ata");
             System.out.println("3. Mekan Özellikleri");
             System.out.println("4. Konum Sorgula");
@@ -562,7 +567,7 @@ public class Main{
          bolumDersleri.add(new Ders("Bmt201", "Algoritma Analizi", 4));
          bolumDersleri.add(new Ders("Bmt301", "İşletim Sistemleri", 4));
 
-         System.out.println("Bilgi: JSON'dan " + jsonOgrencileri.size() + " öğrenci sisteme yüklendi.");
+
          // Oluşturulmuş/örnek mekanlar: 4 derslik, 2 lab, 1 konferans salonu
          mekanlar.clear();
          mekanlar.add(new Derslik("D-101", "A Blok 1. Kat", 40));

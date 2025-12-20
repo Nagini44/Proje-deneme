@@ -46,6 +46,7 @@ public class JsonIslemleri {
                 double maas = 0.0;
                 String unvan = "AR_GOR";
                 List<String> verilenDersler = new ArrayList<>(); // Yeni liste
+                List<String> yayinlar = new ArrayList<>(); // Yeni: yayınlar listesi
 
                 for (String parca : parcalar) {
                     if (!parca.contains(":")) continue;
@@ -65,7 +66,14 @@ public class JsonIslemleri {
                             if(val.contains("-")) {
                                 for(String d : val.split("-")) verilenDersler.add(d.trim());
                             } else {
-                                verilenDersler.add(val);
+                                if (!val.isEmpty()) verilenDersler.add(val);
+                            }
+                            break;
+                        case "yayinlar":
+                            if (val.contains("-")) {
+                                for (String y : val.split("-")) yayinlar.add(y.trim());
+                            } else {
+                                if (!val.isEmpty()) yayinlar.add(val);
                             }
                             break;
                     }
@@ -81,7 +89,7 @@ public class JsonIslemleri {
 
                 if (id != 0) {
                     // Yeni Constructor çağrısı
-                    liste.add(new Akademisyen(id, ad, soyad, LocalDate.now(), sicil, brans, maas, verilenDersler));
+                    liste.add(new Akademisyen(id, ad, soyad, LocalDate.now(), sicil, brans, maas, verilenDersler, yayinlar));
                 }
             }
         } catch (Exception e) {
@@ -172,7 +180,17 @@ public class JsonIslemleri {
                     }
                     dersler = sb.toString();
                 }
-                writer.write("  {\"id\":" + a.getId() + ", \"unvan\":\"" + /* try to preserve unvan? */ "AKADEMISYEN" + "\", \"ad\":\"" + a.getAd() + "\", \"soyad\":\"" + a.getSoyad() + "\", \"sicilNo\":\"" + a.getSicilNo() + "\", \"brans\":\"" + a.getBrans() + "\", \"maas\":" + a.getMaas() + ", \"verdiği_dersler\":\"" + dersler + "\"}");
+                // yayinlar'i '-' ile birleştir
+                String yayinStr = "";
+                if (a.getYayinlar() != null && !a.getYayinlar().isEmpty()) {
+                    StringBuilder sy = new StringBuilder();
+                    for (int j = 0; j < a.getYayinlar().size(); j++) {
+                        if (j > 0) sy.append("-");
+                        sy.append(a.getYayinlar().get(j));
+                    }
+                    yayinStr = sy.toString();
+                }
+                writer.write("  {\"id\":" + a.getId() + ", \"unvan\":\"" + /* try to preserve unvan? */ "AKADEMISYEN" + "\", \"ad\":\"" + a.getAd() + "\", \"soyad\":\"" + a.getSoyad() + "\", \"sicilNo\":\"" + a.getSicilNo() + "\", \"brans\":\"" + a.getBrans() + "\", \"maas\":" + a.getMaas() + ", \"verdiği_dersler\":\"" + dersler + "\", \"yayinlar\":\"" + yayinStr + "\"}");
                 if (i < liste.size() - 1) writer.write(",");
                 writer.newLine();
             }
@@ -433,3 +451,4 @@ public class JsonIslemleri {
         return list;
     }
 }
+

@@ -4,6 +4,7 @@ import exception.HataliVeriException;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.ArrayList;
 
 public class Akademisyen extends Kisi {
     private long id;
@@ -11,15 +12,22 @@ public class Akademisyen extends Kisi {
     private String brans;
     private double maas;
     private List<String> verilenDersler; // EKLENDİ
+    private List<String> yayinlar; // Yeni: akademik yayınlar
 
     // Constructor
     public Akademisyen(long id, String ad, String soyad, LocalDate dt, String sicilNo, String brans, double maas, List<String> verilenDersler) {
+        this(id, ad, soyad, dt, sicilNo, brans, maas, verilenDersler, new ArrayList<>());
+    }
+
+    // Yeni constructor - tüm alanlarla
+    public Akademisyen(long id, String ad, String soyad, LocalDate dt, String sicilNo, String brans, double maas, List<String> verilenDersler, List<String> yayinlar) {
         super(id, ad, soyad, dt, Unvan.AKADEMISYEN);
         this.id = id;
         this.sicilNo = sicilNo;
         this.brans = brans;
         this.maas = maas;
         this.verilenDersler = verilenDersler;
+        this.yayinlar = yayinlar;
     }
 
     public boolean dersBransaUygunMu(String dersKodu) {
@@ -52,6 +60,7 @@ public class Akademisyen extends Kisi {
         System.out.println("Branş    : " + brans);
         System.out.println("Sicil No : " + sicilNo);
         System.out.println("Verdiği Dersler: " + (verilenDersler != null ? verilenDersler : "Yok"));
+        System.out.println("Akademik Yayınlar: " + (yayinlar != null ? yayinlar : "Yok"));
     }
 
     public String getRolAdi() { return "model.Akademisyen"; }
@@ -69,6 +78,8 @@ public class Akademisyen extends Kisi {
     public String getSicilNo() { return sicilNo; }
     public long getId() { return id; }
     public List<String> getVerilenDersler() { return verilenDersler; }
+    public List<String> getYayinlar() { return yayinlar; } // Yeni getter
+    public void setYayinlar(List<String> yayinlar) { this.yayinlar = yayinlar; } // Yeni setter
     public void setId(String isim) {
         if (isim == null || isim.trim().isEmpty()) {
             System.out.println("Hata: Id boş olamaz!"); // Null kontrolü
