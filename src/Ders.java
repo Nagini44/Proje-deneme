@@ -15,4 +15,6 @@ public class Ders {
     }
 
     public String getAd() { return ad; }
+    public String getKod() { return kod; }
+    public int getKredi() { return kredi; }
 }

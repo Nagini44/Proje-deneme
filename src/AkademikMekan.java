@@ -35,6 +35,9 @@ public abstract class AkademikMekan implements IRezervasyon {
     // Getter ve Setter Metodları (Erişim için)
     public String getIsim() { return isim; }
     public Integer getKapasite() { return kapasite; }
+    // Yeni: konum bilgisini okumak ve ayarlamak için gerekli metotlar
+    public String getKonum() { return konum; }
+    public void setKonum(String konum) { this.konum = konum; }
     // Interface'den gelen metodu burada genel bir şekilde ezebiliriz
     // veya alt sınıflara bırakabiliriz. Burada örnek gövde yazalım:
     @Override

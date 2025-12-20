@@ -1,0 +1,8 @@
+--- ÖĞRENCİ NOT DÖKÜMÜ ---
+Öğrenci: Ali Veli
+Numara : 1001
+Tarih  : 2025-12-20
+--------------------------
+(Bu öğrencinin kayıtlı notu yok.)
+--------------------------
+Genel Ortalama: 0.00

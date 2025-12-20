@@ -1,42 +1,6 @@
 [
-  {
-    "id": 2001,
-    "unvan": "DOCENT",
-    "ad": "Ahmet",
-    "soyad": "Yılmaz",
-    "sicilNo": "AKD-001",
-    "brans": "Fizik",
-    "maas": 80000.0,
-    "verdiği_dersler": "Fiz101-Fiz102"
-  },
-  {
-    "id": 2002,
-    "ad": "Busegül",
-    "unvan": "DOCENT",
-    "soyad": "Uran",
-    "sicilNo": "AKD-002",
-    "brans": "Matematik",
-    "verdiği_dersler": "Mat201-Mat202",
-    "maas": 82000.0
-  },
-  {
-    "id": 2003,
-    "ad": "Zeynep",
-    "unvan": "AR_GOR",
-    "soyad": "Kaya",
-    "sicilNo": "AKD-003",
-    "brans": "Matematik",
-    "verdiği_dersler": "Mat101-Mat102",
-    "maas": 49000.0
-  },
-  {
-    "id": 2004,
-    "ad": "Enes",
-    "unvan": "PROFESOR",
-    "soyad": "Tunç",
-    "sicilNo": "AKD-004",
-    "brans": "Bilgisayar Mühendisliği",
-    "verdiği_dersler": "Bmt101-Bmt102",
-    "maas": 111000.0
-  }
+  {"id":2001, "unvan":"AKADEMISYEN", "ad":"Mehmet", "soyad":"Özturk", "sicilNo":"S001", "brans":"Bilgisayar", "maas":5000.0, "verdiği_dersler":"Bmt101-Bmt102"},
+  {"id":2002, "unvan":"AKADEMISYEN", "ad":"Ayşe", "soyad":"Kara", "sicilNo":"S002", "brans":"Bilgisayar", "maas":5500.0, "verdiği_dersler":"Bmt201-Bmt301-Bmt102"},
+  {"id":2003, "unvan":"AKADEMISYEN", "ad":"Fatma", "soyad":"Demir", "sicilNo":"S003", "brans":"Bilgisayar", "maas":5200.0, "verdiği_dersler":"Bmt101-Bmt201"},
+  {"id":2004, "unvan":"AKADEMISYEN", "ad":"Hasan", "soyad":"Kaya", "sicilNo":"S004", "brans":"Bilgisayar", "maas":4800.0, "verdiği_dersler":"Bmt102-Bmt301"}
 ]

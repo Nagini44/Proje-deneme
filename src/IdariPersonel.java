@@ -22,4 +22,9 @@ public class IdariPersonel extends Kisi {
     public void dersAtamaYap(String dersAdi, String derslikKodu) {
         System.out.println(dersAdi + " dersi " + derslikKodu + " dersliğine atandı.");
     }
+
+    // Yeni getter: departman
+    public String getDepartman() {
+        return this.departman;
+    }
 }
