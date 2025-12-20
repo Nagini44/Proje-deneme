@@ -1,20 +1,17 @@
 [
   {"id":1001, "ad":"Ali", "soyad":"Veli", "no":1001, "sinif":1,
-    "Mat101V":14, "Mat101F":14, "Fiz101V":10,"Fiz101F":100},
-
+    "Fiz101V":10, "Fiz101F":100, "Mat101V":100, "Mat101F":100
+  },
   {"id":1002, "ad":"Ayşe", "soyad":"Demir", "no":1002, "sinif":1,
-    "Mat101V":14, "Mat101F":14, "Fiz101V":10,"Fiz101F":100},
-
+    "Fiz101V":10, "Fiz101F":100, "Mat101V":14, "Mat101F":14
+  },
   {"id":1003, "ad":"Can", "soyad":"Yılmaz", "no":1003, "sinif":2,
-    "Mat101V":14, "Mat101F":14, "Fiz101V":10,"Fiz101F":100,
-    "Mat201V":80, "Mat201F":70, "Fiz201V":30, "Fiz201F":90},
-
+    "Mat201V":80, "Mat201F":70, "Fiz101V":10, "Fiz101F":100, "Fiz201V":30, "Fiz201F":90, "Mat101V":14, "Mat101F":14
+  },
   {"id":1004, "ad":"Ece", "soyad":"Kaya", "no":1004, "sinif":2,
-    "Mat101V":14, "Mat101F":14, "Fiz101V":10,"Fiz101F":100,
-    "Mat201V":80, "Mat201F":70, "Fiz201V":30, "Fiz201F":90},
-
+    "Mat201V":80, "Mat201F":70, "Fiz101V":10, "Fiz101F":100, "Fiz201V":30, "Fiz201F":90, "Mat101V":14, "Mat101F":14
+  },
   {"id":1005, "ad":"Murat", "soyad":"Öz", "no":1005, "sinif":3,
-    "Mat101V":14, "Mat101F":14, "Fiz101V":10,"Fiz101F":100,
-    "Mat201V":80, "Mat201F":70, "Fiz201V":30, "Fiz201F":90,
-    "Bmt301V": 30,"Bmt301F": 90,"Mat303V": 20,"Mat303F": 90}
+    "Mat303V":20, "Mat303F":90, "Mat201V":80, "Mat201F":70, "Fiz101V":10, "Fiz101F":100, "Fiz201V":30, "Fiz201F":90, "Mat101V":14, "Mat101F":14, "Bmt301V":30, "Bmt301F":90
+  }
 ]
