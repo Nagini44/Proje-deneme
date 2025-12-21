@@ -5,8 +5,8 @@ import java.time.LocalDate;
 public class IdariPersonel extends Kisi {
     private String departman; // Örn: Öğrenci İşleri
 
-    public IdariPersonel(long id, String ad, String soyad, String departman) {
-        super(id, ad, soyad, LocalDate.now(), Unvan.MEMUR);
+    public IdariPersonel(long id, String ad, String soyad, String departman, String sifre) {
+        super(id, ad, soyad, LocalDate.now(), Unvan.MEMUR,sifre);
         this.departman = departman;
     }
 

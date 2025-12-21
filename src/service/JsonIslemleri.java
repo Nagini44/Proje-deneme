@@ -45,6 +45,8 @@ public class JsonIslemleri {
                 String ad = "", soyad = "", sicil = "", brans = "";
                 double maas = 0.0;
                 String unvan = "AR_GOR";
+                String sifre = "123";
+
                 List<String> verilenDersler = new ArrayList<>(); // Yeni liste
                 List<String> yayinlar = new ArrayList<>(); // Yeni: yayınlar listesi
 
@@ -56,6 +58,7 @@ public class JsonIslemleri {
 
                     switch (key) {
                         case "id": id = Long.parseLong(val); break;
+                        case "sifre" : sifre = val; break;
                         case "unvan": unvan = val; break;
                         case "ad": ad = val; break;
                         case "soyad": soyad = val; break;
@@ -89,7 +92,7 @@ public class JsonIslemleri {
 
                 if (id != 0) {
                     // Yeni Constructor çağrısı
-                    liste.add(new Akademisyen(id, ad, soyad, LocalDate.now(), sicil, brans, maas, verilenDersler, yayinlar));
+                    liste.add(new Akademisyen(id, ad, soyad, LocalDate.now(), sicil, brans, maas, verilenDersler,sifre));
                 }
             }
         } catch (Exception e) {
@@ -111,6 +114,8 @@ public class JsonIslemleri {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             StringBuilder sb = new StringBuilder();
             String line;
+            String sifre = "123";
+
             while ((line = reader.readLine()) != null) sb.append(line.trim());
 
             String content = sb.toString().replace("[", "").replace("]", "");
@@ -134,11 +139,12 @@ public class JsonIslemleri {
                         case "ad": ad = val; break;
                         case "soyad": soyad = val; break;
                         case "departman": departman = val; break;
+                        case "sifre" : sifre = val ; break;
                     }
                 }
 
                 if (id != 0) {
-                    list.add(new IdariPersonel(id, ad, soyad, departman));
+                    list.add(new IdariPersonel(id, ad, soyad, departman,sifre));
                 }
             }
         } catch (Exception e) {
@@ -213,6 +219,7 @@ public class JsonIslemleri {
                 writer.write("\"ad\":\"" + ogr.getAd() + "\", ");
                 writer.write("\"soyad\":\"" + ogr.getSoyad() + "\", ");
                 writer.write("\"no\":" + ogr.getOgrenciNo() + ", ");
+                writer.write("\"sifre\":\"" + ogr.getSifre() + "\", ");
                 writer.write("\"sinif\":" + ogr.getSinif());
 
                 // Notlar varsa alt satıra geç ve girinti yap
@@ -396,6 +403,7 @@ public class JsonIslemleri {
                 String soyad = "";
                 int no = 0;
                 int sinif = 1;
+                String sifre = "123";
                 Map<String, Double> notlar = new HashMap<>();
 
                 // Alanları virgülle ayır
@@ -423,8 +431,10 @@ public class JsonIslemleri {
                         case "sinif":
                             sinif = Integer.parseInt(val);
                             break;
+                        case "sifre":
+                            sifre = val;
+                            break;
                         default:
-                            // Tanımlı alanlar dışındakileri not olarak kabul et (Örn: Mat101V)
                             try {
                                 notlar.put(key, Double.parseDouble(val));
                             } catch (NumberFormatException e) {
@@ -434,8 +444,7 @@ public class JsonIslemleri {
                     }
                 }
 
-                // Öğrenci nesnesini oluştur (Doğum tarihi JSON'da yok, şimdiki zaman atadık)
-                Ogrenci ogr = new Ogrenci(id, ad, soyad, LocalDate.now(), no, sinif);
+                Ogrenci ogr = new Ogrenci(id, ad, soyad, LocalDate.now(), no, sinif,sifre);
 
                 // Notları ekle
                 for (Map.Entry<String, Double> entry : notlar.entrySet()) {

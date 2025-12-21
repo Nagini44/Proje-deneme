@@ -19,8 +19,6 @@ public class Main{
     private static List<Ders> bolumDersleri = new ArrayList<>();
 
      private static List<Akademisyen> hocaListesi = JsonIslemleri.akademisyenleriYukle();
-    // Demo amaçlı ilk hocayı "Giriş Yapmış" varsayıyoruz
-    private static Akademisyen aktifHoca = hocaListesi.isEmpty() ? new Akademisyen(1, "Demo", "Hoca", LocalDate.now(), "001", "Genel", 0,new ArrayList<>()) : hocaListesi.get(0);
     // İdari personel listesi JSON'dan yüklenecek
     private static List<IdariPersonel> idariListesi = JsonIslemleri.idariPersonelYukle();
 

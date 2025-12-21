@@ -15,19 +15,22 @@ public class Akademisyen extends Kisi {
     private List<String> yayinlar; // Yeni: akademik yayınlar
 
     // Constructor
-    public Akademisyen(long id, String ad, String soyad, LocalDate dt, String sicilNo, String brans, double maas, List<String> verilenDersler) {
-        this(id, ad, soyad, dt, sicilNo, brans, maas, verilenDersler, new ArrayList<>());
+    public Akademisyen(long id, String ad, String soyad, LocalDate dt, String sicilNo, String brans, double maas, List<String> verilenDersler,String sifre) {
+        this(id, ad, soyad, dt, sicilNo, brans, maas, verilenDersler, new ArrayList<>(),sifre);
     }
 
     // Yeni constructor - tüm alanlarla
-    public Akademisyen(long id, String ad, String soyad, LocalDate dt, String sicilNo, String brans, double maas, List<String> verilenDersler, List<String> yayinlar) {
-        super(id, ad, soyad, dt, Unvan.AKADEMISYEN);
+    public Akademisyen(long id, String ad, String soyad, LocalDate dt, String sicilNo, String brans, double maas, List<String> verilenDersler, List<String> yayinlar, String sifre) {
+        super(id, ad, soyad, dt, Unvan.AKADEMISYEN,sifre);
         this.id = id;
         this.sicilNo = sicilNo;
         this.brans = brans;
         this.maas = maas;
         this.verilenDersler = verilenDersler;
         this.yayinlar = yayinlar;
+    }
+
+    public Akademisyen(long id, String ad, String soyad, LocalDate now, String sicil, String brans, double maas, List<String> verilenDersler) {
     }
 
     public boolean dersBransaUygunMu(String dersKodu) {

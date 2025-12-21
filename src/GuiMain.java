@@ -121,49 +121,53 @@ public class GuiMain {
         JPanel p = new JPanel(new BorderLayout());
         p.setBackground(new Color(34, 47, 62));
 
-        // Başlığı istenen şekilde güncelle
         JLabel title = new JLabel("GAZİ ÜNİVERSİTESİ BİLGİ SİSTEMİNE HOŞGELDİNİZ", SwingConstants.CENTER);
         title.setFont(title.getFont().deriveFont(Font.BOLD, 24f));
         title.setForeground(Color.WHITE);
+        title.setBorder(new EmptyBorder(20, 10, 20, 10));
 
-        // Logo: önce classpath'ten, yoksa proje içinden yüklemeyi dene
-        JPanel north = new JPanel(new BorderLayout());
-        north.setBackground(new Color(34,47,62));
-        URL logoUrl = GuiMain.class.getResource("/images/gazi_logo.png");
-        JLabel logoLabel = null;
-        if (logoUrl != null) {
-            ImageIcon raw = new ImageIcon(logoUrl);
-            Image img = raw.getImage();
-            int w = 220;
-            int h = raw.getIconWidth() > 0 ? (int)((double)raw.getIconHeight()*w/raw.getIconWidth()) : 80;
-            Image scaled = img.getScaledInstance(w, h, Image.SCALE_SMOOTH);
-            logoLabel = new JLabel(new ImageIcon(scaled));
+
+        // --- RESİM EKLEME  ---
+        JLabel logoLabel = new JLabel();
+
+        java.net.URL imgUrl = getClass().getResource("/gazi.png");
+        ImageIcon icon = null;
+
+        if (imgUrl != null) {
+            icon = new ImageIcon(imgUrl);
         } else {
-            java.io.File f = new java.io.File("resources/images/gazi_logo.png");
-            if (f.exists()) {
-                ImageIcon raw = new ImageIcon(f.getAbsolutePath());
-                Image img = raw.getImage();
-                int w = 220;
-                int h = raw.getIconWidth() > 0 ? (int)((double)raw.getIconHeight()*w/raw.getIconWidth()) : 80;
-                Image scaled = img.getScaledInstance(w, h, Image.SCALE_SMOOTH);
-                logoLabel = new JLabel(new ImageIcon(scaled));
+            java.io.File imgFile = new java.io.File("src/gazi.png");
+            if (imgFile.exists()) {
+                icon = new ImageIcon(imgFile.getAbsolutePath());
             }
         }
-        if (logoLabel != null) {
-            logoLabel.setBorder(new EmptyBorder(12,12,6,12));
-            logoLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            north.add(logoLabel, BorderLayout.NORTH);
-        }
-        title.setBorder(new EmptyBorder(12,10,20,10));
-        north.add(title, BorderLayout.SOUTH);
-        p.add(north, BorderLayout.NORTH);
 
-        // Butonları ortada dikey olarak daha büyük hale getir
+        if (icon != null) {
+            Image img = icon.getImage();
+            Image newImg = img.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+            logoLabel.setIcon(new ImageIcon(newImg));
+            logoLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            logoLabel.setBorder(new EmptyBorder(10, 0, 10, 0)); // Biraz boşluk bırakalım
+        } else {
+            logoLabel.setText("[gazi.png bulunamadı]");
+            logoLabel.setForeground(Color.RED);
+            logoLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        }
+
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.setBackground(new Color(34, 47, 62));
+        topPanel.add(logoLabel, BorderLayout.CENTER); // Resmi merkeze
+        topPanel.add(title, BorderLayout.SOUTH);      // Başlığı altına
+
+        p.add(topPanel, BorderLayout.NORTH);
+
+        // --- BUTONLAR ---
         JPanel center = new JPanel(new GridBagLayout());
         center.setBackground(new Color(34, 47, 62));
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(12,12,12,12);
+        gbc.insets = new Insets(12, 12, 12, 12);
         gbc.gridx = 0; gbc.gridy = 0;
+
 
         JButton ogrBtn = new JButton("Öğrenci Girişi");
         JButton hocaBtn = new JButton("Akademisyen Girişi");
@@ -201,23 +205,43 @@ public class GuiMain {
         JPanel loginCard = new JPanel(new BorderLayout(12,12));
         loginCard.setBorder(new EmptyBorder(12,12,12,12));
         loginCard.setBackground(new Color(44,62,80));
+        // --- LOGIN KARTI (GÜNCELLENDİ) ---
 
-        JPanel top = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
-        top.setBackground(new Color(44,62,80));
-        JLabel lbl = new JLabel("Öğrenci Numarası:"); lbl.setForeground(Color.WHITE);
-        JTextField noField = new JTextField(12); noField.setPreferredSize(new Dimension(140,26)); noField.setForeground(Color.BLACK);
+        JPanel inputPanel = new JPanel(new GridLayout(3, 2, 10, 10)); // 3 satır: No, Şifre, Boşluk
+        inputPanel.setBackground(new Color(44,62,80));
+
+        // Bileşenler
+        JLabel lblNo = new JLabel("Öğrenci Numarası:"); lblNo.setForeground(Color.WHITE);
+        JTextField noField = new JTextField();
+
+        JLabel lblPass = new JLabel("Şifre:"); lblPass.setForeground(Color.WHITE);
+        JPasswordField passField = new JPasswordField(); // ŞİFRE ALANI BURASI
+
+        inputPanel.add(lblNo);
+        inputPanel.add(noField);
+        inputPanel.add(lblPass);
+        inputPanel.add(passField);
+
+        // Butonlar için Alt Panel
+        JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        btnPanel.setBackground(new Color(44,62,80));
         JButton loginBtn = new JButton("Giriş");
         JButton exitBtn = new JButton("Çıkış");
-        loginBtn.setBackground(new Color(52,152,219)); loginBtn.setForeground(Color.BLACK); loginBtn.setPreferredSize(new Dimension(100,30));
-        exitBtn.setBackground(new Color(149,165,166)); exitBtn.setForeground(Color.BLACK); exitBtn.setPreferredSize(new Dimension(80,30));
 
-        top.add(lbl); top.add(noField); top.add(loginBtn); top.add(exitBtn);
-        loginCard.add(top, BorderLayout.NORTH);
+        // Buton renkleri
+        loginBtn.setBackground(new Color(52,152,219)); loginBtn.setForeground(Color.BLACK);
+        exitBtn.setBackground(new Color(149,165,166)); exitBtn.setForeground(Color.BLACK);
 
-        JTextArea loginNote = new JTextArea("Lütfen öğrenci numaranızla giriş yapınız.");
-        loginNote.setEditable(false); loginNote.setBackground(new Color(44,62,80)); loginNote.setForeground(Color.WHITE);
-        loginNote.setBorder(BorderFactory.createEmptyBorder(8,8,8,8));
-        loginCard.add(loginNote, BorderLayout.CENTER);
+        btnPanel.add(loginBtn);
+        btnPanel.add(exitBtn);
+
+        // Panelleri Login Kartına Ekle (Input'u ortaya değil, Kuzey'e ekleyelim ki yukarıda dursun)
+        JPanel centerWrapper = new JPanel(new BorderLayout());
+        centerWrapper.setBackground(new Color(44,62,80));
+        centerWrapper.add(inputPanel, BorderLayout.NORTH);
+        centerWrapper.add(btnPanel, BorderLayout.CENTER); // Butonlar hemen altında
+
+        loginCard.add(centerWrapper, BorderLayout.CENTER);
 
         // --- MAIN KARTI (öğrenci detayları ve işlemler) ---
         JPanel mainCard = new JPanel(new BorderLayout(12,12));
@@ -253,13 +277,34 @@ public class GuiMain {
         // Giriş: başarılı ise main karta geç
         loginBtn.addActionListener(e -> {
             String txt = noField.getText().trim();
+            String pass = new String(passField.getPassword()); // Şifreyi alıyoruz
+
             if (txt.isEmpty()) { JOptionPane.showMessageDialog(frame, "Lütfen numara girin"); return; }
+
             try {
                 int num = Integer.parseInt(txt);
                 aktif[0] = null;
-                for (Ogrenci o : ogrenciDeposu.getListe()) if (o.getOgrenciNo() == num) { aktif[0] = o; break; }
+                // Listeden öğrenciyi bul
+                for (Ogrenci o : ogrenciDeposu.getListe()) {
+                    if (o.getOgrenciNo() == num) {
+                        // ŞİFRE KONTROLÜ (Eğer şifre tanımlı değilse "123" varsayalım hata vermesin)
+                        String gercekSifre = (o.getSifre() == null) ? "123" : o.getSifre();
+
+                        if (gercekSifre.equals(pass)) {
+                            aktif[0] = o; // Şifre doğruysa giriş yap
+                        } else {
+                            JOptionPane.showMessageDialog(frame, "Hatalı Şifre!", "Hata", JOptionPane.ERROR_MESSAGE);
+                            return; // Döngüden ve metoddan çık
+                        }
+                        break;
+                    }
+                }
+
                 if (aktif[0] == null) JOptionPane.showMessageDialog(frame, "Öğrenci bulunamadı");
                 else {
+                    // Giriş başarılı, alanları temizle
+                    noField.setText("");
+                    passField.setText("");
                     infoArea.setText(joinStudentInfo(aktif[0]));
                     CardLayout cl = (CardLayout) container.getLayout(); cl.show(container, "main");
                 }
@@ -293,15 +338,39 @@ public class GuiMain {
         container.setBackground(new Color(44,62,80));
 
         // Login kartı
-        JPanel loginCard = new JPanel(new BorderLayout(12,12)); loginCard.setBorder(new EmptyBorder(12,12,12,12)); loginCard.setBackground(new Color(44,62,80));
-        JPanel top = new JPanel(new FlowLayout(FlowLayout.LEFT,10,10)); top.setBackground(new Color(44,62,80));
-        JLabel lbl = new JLabel("Akademisyen ID:"); lbl.setForeground(Color.WHITE);
-        JTextField idField = new JTextField(12); idField.setPreferredSize(new Dimension(140,26)); idField.setForeground(Color.BLACK);
-        JButton loginBtn = new JButton("Giriş"); JButton exitBtn = new JButton("Çıkış");
-        loginBtn.setBackground(new Color(52,152,219)); loginBtn.setForeground(Color.BLACK); exitBtn.setBackground(new Color(149,165,166)); exitBtn.setForeground(Color.BLACK);
-        top.add(lbl); top.add(idField); top.add(loginBtn); top.add(exitBtn);
-        loginCard.add(top, BorderLayout.NORTH);
-        JTextArea note = new JTextArea("Lütfen ID girerek giriş yapınız."); note.setEditable(false); note.setBackground(new Color(44,62,80)); note.setForeground(Color.WHITE); note.setBorder(BorderFactory.createEmptyBorder(8,8,8,8)); loginCard.add(note, BorderLayout.CENTER);
+        JPanel loginCard = new JPanel(new BorderLayout(12,12));
+        loginCard.setBorder(new EmptyBorder(12,12,12,12));
+        loginCard.setBackground(new Color(44,62,80));
+
+        JPanel inputPanel = new JPanel(new GridLayout(3, 2, 10, 10));
+        inputPanel.setBackground(new Color(44,62,80));
+
+        JLabel lblId = new JLabel("Akademisyen ID:"); lblId.setForeground(Color.WHITE);
+        JTextField idField = new JTextField();
+
+        JLabel lblPass = new JLabel("Şifre:"); lblPass.setForeground(Color.WHITE);
+        JPasswordField passField = new JPasswordField(); // ŞİFRE
+
+        inputPanel.add(lblId);
+        inputPanel.add(idField);
+        inputPanel.add(lblPass);
+        inputPanel.add(passField);
+
+        JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        btnPanel.setBackground(new Color(44,62,80));
+        JButton loginBtn = new JButton("Giriş");
+        JButton exitBtn = new JButton("Çıkış");
+        loginBtn.setBackground(new Color(52,152,219)); loginBtn.setForeground(Color.BLACK);
+        exitBtn.setBackground(new Color(149,165,166)); exitBtn.setForeground(Color.BLACK);
+        btnPanel.add(loginBtn);
+        btnPanel.add(exitBtn);
+
+        JPanel centerWrapper = new JPanel(new BorderLayout());
+        centerWrapper.setBackground(new Color(44,62,80));
+        centerWrapper.add(inputPanel, BorderLayout.NORTH);
+        centerWrapper.add(btnPanel, BorderLayout.CENTER);
+
+        loginCard.add(centerWrapper, BorderLayout.CENTER);
 
         // Main kartı
         JPanel mainCard = new JPanel(new BorderLayout(12,12)); mainCard.setBorder(new EmptyBorder(12,12,12,12)); mainCard.setBackground(new Color(44,62,80));
@@ -325,10 +394,34 @@ public class GuiMain {
         exitBtn2.addActionListener(e -> goHome());
 
         loginBtn.addActionListener(e -> {
-            String txt = idField.getText().trim(); if (txt.isEmpty()) { JOptionPane.showMessageDialog(frame, "Lütfen ID girin"); return; }
+            String txt = idField.getText().trim();
+            String pass = new String(passField.getPassword());
+
+            if (txt.isEmpty()) { JOptionPane.showMessageDialog(frame, "Lütfen ID girin"); return; }
             try {
-                long id = Long.parseLong(txt); aktif[0] = null; for (Akademisyen a : hocaListesi) if (a.getId() == id) { aktif[0] = a; break; }
-                if (aktif[0] == null) JOptionPane.showMessageDialog(frame, "Akademisyen bulunamadı"); else { infoArea.setText(akademisyenToString(aktif[0])); ((CardLayout)container.getLayout()).show(container, "main"); }
+                long id = Long.parseLong(txt);
+                aktif[0] = null;
+                for (Akademisyen a : hocaListesi) {
+                    if (a.getId() == id) {
+                        // ŞİFRE KONTROLÜ
+                        String gercekSifre = (a.getSifre() == null) ? "123" : a.getSifre();
+                        if (gercekSifre.equals(pass)) {
+                            aktif[0] = a;
+                        } else {
+                            JOptionPane.showMessageDialog(frame, "Hatalı Şifre!", "Hata", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                        break;
+                    }
+                }
+
+                if (aktif[0] == null) JOptionPane.showMessageDialog(frame, "Akademisyen bulunamadı");
+                else {
+                    idField.setText("");
+                    passField.setText("");
+                    infoArea.setText(akademisyenToString(aktif[0]));
+                    ((CardLayout)container.getLayout()).show(container, "main");
+                }
             } catch (NumberFormatException ex) { JOptionPane.showMessageDialog(frame, "Geçersiz ID"); }
         });
 
@@ -368,16 +461,46 @@ public class GuiMain {
 
     // -- İDARİ PERSONEL PANELİ --
     private JPanel buildIdariPanel() {
-        JPanel container = new JPanel(new CardLayout()); container.setBackground(new Color(44,62,80));
 
-        JPanel loginCard = new JPanel(new BorderLayout(12,12)); loginCard.setBorder(new EmptyBorder(12,12,12,12)); loginCard.setBackground(new Color(44,62,80));
-        JPanel top = new JPanel(new FlowLayout(FlowLayout.LEFT,10,10)); top.setBackground(new Color(44,62,80));
-        JLabel lbl = new JLabel("ID seçin:"); lbl.setForeground(Color.WHITE);
-        String[] ids = new String[idariListesi.size()]; for (int i=0;i<idariListesi.size();i++) ids[i] = idariListesi.get(i).getId() + " - " + idariListesi.get(i).getAd() + " " + idariListesi.get(i).getSoyad();
+        JPanel container = new JPanel(new CardLayout());
+        container.setBackground(new Color(44,62,80));
+
+        JPanel loginCard = new JPanel(new BorderLayout(12,12));
+        loginCard.setBorder(new EmptyBorder(12,12,12,12));
+        loginCard.setBackground(new Color(44,62,80));
+
+        JPanel inputPanel = new JPanel(new GridLayout(3, 2, 10, 10));
+        inputPanel.setBackground(new Color(44,62,80));
+
+        JLabel lblSec = new JLabel("Personel Seçin:"); lblSec.setForeground(Color.WHITE);
+        // Combo box kodunu koruyoruz
+        String[] ids = new String[idariListesi.size()];
+        for (int i=0;i<idariListesi.size();i++) ids[i] = idariListesi.get(i).getId() + " - " + idariListesi.get(i).getAd() + " " + idariListesi.get(i).getSoyad();
         JComboBox<String> combo = new JComboBox<>(ids);
-        JButton enterBtn = new JButton("Giriş"); JButton exitBtn = new JButton("Çıkış"); enterBtn.setBackground(new Color(52,152,219)); enterBtn.setForeground(Color.BLACK); exitBtn.setBackground(new Color(149,165,166)); exitBtn.setForeground(Color.BLACK);
-        top.add(lbl); top.add(combo); top.add(enterBtn); top.add(exitBtn); loginCard.add(top, BorderLayout.NORTH);
-        JTextArea note = new JTextArea("Idari personel seçip giriş yapınız."); note.setEditable(false); note.setBackground(new Color(44,62,80)); note.setForeground(Color.WHITE); note.setBorder(BorderFactory.createEmptyBorder(8,8,8,8)); loginCard.add(note, BorderLayout.CENTER);
+
+        JLabel lblPass = new JLabel("Şifre:"); lblPass.setForeground(Color.WHITE);
+        JPasswordField passField = new JPasswordField();
+
+        inputPanel.add(lblSec);
+        inputPanel.add(combo);
+        inputPanel.add(lblPass);
+        inputPanel.add(passField);
+
+        JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        btnPanel.setBackground(new Color(44,62,80));
+        JButton enterBtn = new JButton("Giriş"); // Değişken adı enterBtn idi
+        JButton exitBtn = new JButton("Çıkış");
+        enterBtn.setBackground(new Color(52,152,219)); enterBtn.setForeground(Color.BLACK);
+        exitBtn.setBackground(new Color(149,165,166)); exitBtn.setForeground(Color.BLACK);
+        btnPanel.add(enterBtn);
+        btnPanel.add(exitBtn);
+
+        JPanel centerWrapper = new JPanel(new BorderLayout());
+        centerWrapper.setBackground(new Color(44,62,80));
+        centerWrapper.add(inputPanel, BorderLayout.NORTH);
+        centerWrapper.add(btnPanel, BorderLayout.CENTER);
+
+        loginCard.add(centerWrapper, BorderLayout.CENTER);
 
         JPanel mainCard = new JPanel(new BorderLayout(12,12)); mainCard.setBorder(new EmptyBorder(12,12,12,12)); mainCard.setBackground(new Color(44,62,80));
         JPanel mainTop = new JPanel(new FlowLayout(FlowLayout.LEFT,10,10)); mainTop.setBackground(new Color(44,62,80)); JButton backBtn = new JButton("Geri"); backBtn.setPreferredSize(new Dimension(80,30)); backBtn.setBackground(new Color(189,195,199)); backBtn.setForeground(Color.BLACK); JButton exitBtn2 = new JButton("Çıkış"); exitBtn2.setPreferredSize(new Dimension(80,30)); exitBtn2.setBackground(new Color(149,165,166)); exitBtn2.setForeground(Color.BLACK); mainTop.add(backBtn); mainTop.add(exitBtn2); mainCard.add(mainTop, BorderLayout.NORTH);
@@ -393,7 +516,24 @@ public class GuiMain {
         exitBtn.addActionListener(e -> goHome()); exitBtn2.addActionListener(e -> goHome());
 
         enterBtn.addActionListener(e -> {
-            int idx = combo.getSelectedIndex(); if (idx < 0) return; aktif[0] = idariListesi.get(idx); infoArea.setText(aktif[0].getAd() + " " + aktif[0].getSoyad() + " - " + aktif[0].getRolAdi()); ((CardLayout)container.getLayout()).show(container, "main");
+            int idx = combo.getSelectedIndex();
+            if (idx < 0) return;
+
+            // Seçilen personeli al
+            IdariPersonel secilen = idariListesi.get(idx);
+            String pass = new String(passField.getPassword());
+
+            // ŞİFRE KONTROLÜ
+            String gercekSifre = (secilen.getSifre() == null) ? "123" : secilen.getSifre();
+
+            if (gercekSifre.equals(pass)) {
+                aktif[0] = secilen;
+                passField.setText(""); // Şifreyi temizle
+                infoArea.setText(aktif[0].getAd() + " " + aktif[0].getSoyad() + " - " + aktif[0].getRolAdi());
+                ((CardLayout)container.getLayout()).show(container, "main");
+            } else {
+                JOptionPane.showMessageDialog(frame, "Hatalı Şifre!", "Hata", JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         backBtn.addActionListener(e -> { ((CardLayout)container.getLayout()).show(container, "login"); });

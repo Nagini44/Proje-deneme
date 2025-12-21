@@ -1,7 +1,6 @@
 package model;
 
 import exception.HataliVeriException;
-
 import java.time.LocalDate;
 
 //Abstract sınıf
@@ -10,22 +9,28 @@ public abstract class Kisi {
     private long id;
     private String ad;
     private String soyad;
-    private LocalDate dogumTarihi; // Gereksinim 6: LocalDate kullanımı
+    private LocalDate dogumTarihi;
+    private String sifre;
 
     private Unvan unvan;
 
-    //Constructor Overloading (1)
+    //Constructor Overloading
     public Kisi() {
         this.id = System.currentTimeMillis();
+        this.sifre = "123"; // Varsayılan şifre
     }
 
-    public Kisi(long id, String ad, String soyad, LocalDate dogumTarihi, Unvan unvan) {
+    public Kisi(long id, String ad, String soyad, LocalDate dogumTarihi, Unvan unvan,String sifre) {
         this.id = id;
         this.ad = ad;
         this.soyad = soyad;
         this.dogumTarihi = dogumTarihi;
-        this.unvan = unvan; // Atama yapıldı
+        this.unvan = unvan;
+        this.sifre = sifre;
     }
+
+    public String getSifre() { return sifre; }
+    public void setSifre(String sifre) { this.sifre = sifre; }
 
     //Abstract metotlar
     public abstract void bilgileriGoster();

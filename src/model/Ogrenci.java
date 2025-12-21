@@ -16,8 +16,8 @@ public class Ogrenci extends Kisi implements IDegerlendirilebilir {
         return this.dersNotlari;
     }
 
-    public Ogrenci(long id, String ad, String soyad, LocalDate dogumTarihi, int ogrenciNo, int sinif) {
-        super(id, ad, soyad, dogumTarihi, Unvan.OGRENCI);
+    public Ogrenci(long id, String ad, String soyad, LocalDate dogumTarihi, int ogrenciNo, int sinif,String sifre) {
+        super(id, ad, soyad, dogumTarihi, Unvan.OGRENCI, sifre);
         this.ogrenciNo = ogrenciNo;
         this.sinif = sinif;
     }
