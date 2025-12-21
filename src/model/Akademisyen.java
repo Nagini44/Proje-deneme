@@ -15,22 +15,19 @@ public class Akademisyen extends Kisi {
     private List<String> yayinlar; // Yeni: akademik yayınlar
 
     // Constructor
-    public Akademisyen(long id, String ad, String soyad, LocalDate dt, String sicilNo, String brans, double maas, List<String> verilenDersler,String sifre) {
-        this(id, ad, soyad, dt, sicilNo, brans, maas, verilenDersler, new ArrayList<>(),sifre);
+    public Akademisyen(long id, String ad, String soyad, LocalDate dt, String sicilNo, String brans, double maas, List<String> verilenDersler,String sifre,Unvan unvan) {
+        this(id, ad, soyad, dt, sicilNo, brans, maas, verilenDersler, new ArrayList<>(),sifre,unvan);
     }
 
     // Yeni constructor - tüm alanlarla
-    public Akademisyen(long id, String ad, String soyad, LocalDate dt, String sicilNo, String brans, double maas, List<String> verilenDersler, List<String> yayinlar, String sifre) {
-        super(id, ad, soyad, dt, Unvan.AKADEMISYEN,sifre);
+    public Akademisyen(long id, String ad, String soyad, LocalDate dt, String sicilNo, String brans, double maas, List<String> verilenDersler, List<String> yayinlar, String sifre,Unvan unvan) {
+        super(id, ad, soyad, dt, unvan,sifre);
         this.id = id;
         this.sicilNo = sicilNo;
         this.brans = brans;
         this.maas = maas;
         this.verilenDersler = verilenDersler;
         this.yayinlar = yayinlar;
-    }
-
-    public Akademisyen(long id, String ad, String soyad, LocalDate now, String sicil, String brans, double maas, List<String> verilenDersler) {
     }
 
     public boolean dersBransaUygunMu(String dersKodu) {
@@ -59,6 +56,7 @@ public class Akademisyen extends Kisi {
     @Override
     public void bilgileriGoster() {
         System.out.println("--- AKADEMİSYEN KARTI ---");
+        System.out.println("Unvan    : " + getUnvan());
         System.out.println("Ad Soyad : " + getAd() + " " + getSoyad());
         System.out.println("Branş    : " + brans);
         System.out.println("Sicil No : " + sicilNo);

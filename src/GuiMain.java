@@ -581,15 +581,19 @@ public class GuiMain {
         return sb.toString();
     }
 
-    // Basit yardımcı: akademisyeni string'e çevir
     private String akademisyenToString(Akademisyen a) {
         if (a == null) return "";
         StringBuilder sb = new StringBuilder();
-        sb.append("Akademisyen: ").append(a.getAd()).append(" ").append(a.getSoyad()).append("\n");
+
+        sb.append("Unvan: ").append(a.getUnvan()).append("\n");
+
+        sb.append("Ad Soyad: ").append(a.getAd()).append(" ").append(a.getSoyad()).append("\n");
         sb.append("ID: ").append(a.getId()).append("\n");
+
         if (a.getVerilenDersler() != null && !a.getVerilenDersler().isEmpty()) {
             sb.append("Verdiği Dersler: ").append(String.join(", ", a.getVerilenDersler())).append("\n");
         }
+
         if (a.getYayinlar() != null && !a.getYayinlar().isEmpty()) {
             sb.append("Akademik Yayınlar:\n");
             for (String y : a.getYayinlar()) sb.append("  - ").append(y).append("\n");

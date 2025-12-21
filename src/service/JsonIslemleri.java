@@ -92,7 +92,7 @@ public class JsonIslemleri {
 
                 if (id != 0) {
                     // Yeni Constructor çağrısı
-                    liste.add(new Akademisyen(id, ad, soyad, LocalDate.now(), sicil, brans, maas, verilenDersler,sifre));
+                    liste.add(new Akademisyen(id, ad, soyad, LocalDate.now(), sicil, brans, maas, verilenDersler,sifre,unvanEnum));
                 }
             }
         } catch (Exception e) {
@@ -196,7 +196,7 @@ public class JsonIslemleri {
                     }
                     yayinStr = sy.toString();
                 }
-                writer.write("  {\"id\":" + a.getId() + ", \"unvan\":\"" + /* try to preserve unvan? */ "AKADEMISYEN" + "\", \"ad\":\"" + a.getAd() + "\", \"soyad\":\"" + a.getSoyad() + "\", \"sicilNo\":\"" + a.getSicilNo() + "\", \"brans\":\"" + a.getBrans() + "\", \"maas\":" + a.getMaas() + ", \"verdiği_dersler\":\"" + dersler + "\", \"yayinlar\":\"" + yayinStr + "\"}");
+                writer.write(", \"unvan\":\""+ a.getUnvan() +"  {\"id\":" + a.getId() +  "AKADEMISYEN" + "\", \"ad\":\"" + a.getAd() + "\", \"soyad\":\"" + a.getSoyad() + "\", \"sicilNo\":\"" + a.getSicilNo() + "\", \"brans\":\"" + a.getBrans() + "\", \"maas\":" + a.getMaas() + ", \"verdiği_dersler\":\"" + dersler + "\", \"yayinlar\":\"" + yayinStr + "\"}");
                 if (i < liste.size() - 1) writer.write(",");
                 writer.newLine();
             }
