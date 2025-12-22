@@ -1,7 +1,7 @@
 --- ÖĞRENCİ NOT DÖKÜMÜ ---
 Öğrenci: Ali Veli
 Numara : 1001
-Tarih  : 2025-12-20
+Tarih  : 2025-12-22
 --------------------------
 Mat101V    : 100,00
 Mat101F    : 100,00

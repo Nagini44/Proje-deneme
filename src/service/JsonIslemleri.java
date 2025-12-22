@@ -356,19 +356,11 @@ public class JsonIslemleri {
         System.out.println("Transkript oluşturuldu");
         System.out.println(out);
 
-        if (notMap == null || notMap.isEmpty()) {
-            // ... (StringBuilder işlemleri aynı)
-            System.out.println(out); // Konsola yazdırır
-
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(dosyaAdi))) {
-                writer.write(out);
-
-                System.out.println("\n>> Transkript dosyası başarıyla oluşturuldu: " + dosyaAdi);
-            } catch (IOException e) {
-                System.out.println("Transkript yazılamadı: " + e.getMessage());
-            }
-
-    }
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(dosyaAdi))) {
+            writer.write(out);
+        } catch (IOException e) {
+            System.out.println("Transkript yazılamadı: " + e.getMessage());
+        }
     }
 
     public static List<Ogrenci> ogrencileriYukle() {

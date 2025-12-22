@@ -80,6 +80,9 @@ public class Ogrenci extends Kisi implements IDegerlendirilebilir {
         if (sinif > 2) {
             System.out.printf("3. Sınıf Ortalaması : %.2f\n", donemOrtalamasiHesapla(3));
         }
+        if (sinif > 3) {
+            System.out.printf("3. Sınıf Ortalaması : %.2f\n", donemOrtalamasiHesapla(4));
+        }
         System.out.printf("GENEL GANO          : %.2f\n", notOrtalamasiHesapla());
     }
 
@@ -96,4 +99,5 @@ public class Ogrenci extends Kisi implements IDegerlendirilebilir {
         }
         this.sinif = sinif;
     }
+    public void setOgrenciNo(int ogrenciNo) {}
 }
